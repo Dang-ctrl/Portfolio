@@ -1,11 +1,15 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useReveal } from "@/hooks/useReveal";
+
+/* ═══════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════ */
 
 interface NowSection {
   heading: string;
-  body:    string[];
-  tag:     string;
+  body: string[];
+  tag: string;
 }
 
 const NOW: NowSection[] = [
@@ -52,43 +56,254 @@ const NOW: NowSection[] = [
 
 const UPDATED = "April 2025 — Chennai";
 
+const FOCUS_DATA = [
+  { label: "Building", pct: 40, color: "#6FC07A" },
+  { label: "Learning", pct: 25, color: "#4E7C58" },
+  { label: "Thinking", pct: 15, color: "#3A6648" },
+  { label: "Reading", pct: 10, color: "#2D5239" },
+  { label: "Other",    pct: 10, color: "#1F3F2C" },
+];
+
+const STACK: string[] = [
+  "Next.js", "TypeScript", "Python", "Figma",
+  "Vercel", "Supabase", "Framer Motion", "Tailwind",
+];
+
+/* ═══════════════════════════════════════════════
+   ANIMATED COUNTER
+   ═══════════════════════════════════════════════ */
+function AnimatedCounter({ target, duration = 1600 }: { target: number; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const t0 = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min((now - t0) / duration, 1);
+            setCount(Math.round((1 - Math.pow(1 - p, 3)) * target));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{count}</span>;
+}
+
+/* ═══════════════════════════════════════════════
+   LIVE CLOCK
+   ═══════════════════════════════════════════════ */
+function LiveClock() {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const update = () => {
+      setTime(
+        new Date().toLocaleTimeString("en-IN", {
+          hour: "2-digit", minute: "2-digit", second: "2-digit",
+          hour12: false, timeZone: "Asia/Kolkata",
+        })
+      );
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return <span className="sidebar-clock-time">{time}</span>;
+}
+
+/* ═══════════════════════════════════════════════
+   FOCUS RING (interactive SVG)
+   ═══════════════════════════════════════════════ */
+function FocusRing() {
+  const [hovered, setHovered] = useState<number | null>(null);
+  const radius = 70;
+  const stroke = 12;
+  const circumference = 2 * Math.PI * radius;
+
+  let cumulative = 0;
+  const arcs = FOCUS_DATA.map((d, i) => {
+    const dashLen = (d.pct / 100) * circumference;
+    const gap = circumference - dashLen;
+    const offset = -((cumulative / 100) * circumference) + circumference * 0.25;
+    cumulative += d.pct;
+    return { ...d, dashLen, gap, offset, index: i };
+  });
+
+  return (
+    <div className="focus-ring-wrap">
+      <svg viewBox="0 0 180 180" className="focus-ring-svg">
+        <circle cx="90" cy="90" r={radius} fill="none" stroke="var(--bdr)" strokeWidth={stroke} opacity="0.3" />
+        {arcs.map((a) => (
+          <circle
+            key={a.label}
+            cx="90" cy="90" r={radius}
+            fill="none" stroke={a.color}
+            strokeWidth={hovered === a.index ? stroke + 4 : stroke}
+            strokeDasharray={`${a.dashLen} ${a.gap}`}
+            strokeDashoffset={a.offset}
+            strokeLinecap="butt"
+            style={{
+              transition: "stroke-width 0.25s, opacity 0.25s",
+              opacity: hovered !== null && hovered !== a.index ? 0.3 : 1,
+              cursor: "pointer",
+            }}
+            onMouseEnter={() => setHovered(a.index)}
+            onMouseLeave={() => setHovered(null)}
+          />
+        ))}
+        <text x="90" y="84" textAnchor="middle" className="focus-ring-center-pct">
+          {hovered !== null ? `${FOCUS_DATA[hovered].pct}%` : "Focus"}
+        </text>
+        <text x="90" y="102" textAnchor="middle" className="focus-ring-center-label">
+          {hovered !== null ? FOCUS_DATA[hovered].label : "Allocation"}
+        </text>
+      </svg>
+
+      <div className="focus-ring-legend">
+        {FOCUS_DATA.map((d, i) => (
+          <div
+            key={d.label}
+            className={`focus-legend-item ${hovered === i ? "active" : ""}`}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+          >
+            <span className="focus-legend-dot" style={{ background: d.color }} />
+            <span className="focus-legend-label">{d.label}</span>
+            <span className="focus-legend-pct">{d.pct}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   ACCORDION (with CSS grid animation)
+   ═══════════════════════════════════════════════ */
+function AccordionSection({ section, index }: { section: NowSection; index: number }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="reveal" style={{ transitionDelay: `${60 + index * 50}ms` }}>
+      <div className={`acc-section ${open ? "acc-open" : ""}`}>
+        <button className="acc-header" onClick={() => setOpen(!open)} type="button">
+          <div className="acc-header-left">
+            <span className="acc-tag">{section.tag}</span>
+            <h2 className="acc-heading">{section.heading}</h2>
+          </div>
+          <span className="acc-toggle">{open ? "−" : "+"}</span>
+        </button>
+
+        {/* CSS grid row animation: 0fr → 1fr */}
+        <div className="acc-panel">
+          <div className="acc-panel-inner">
+            <div className="acc-body-inner">
+              {section.body.map((p, j) => (
+                <p key={j} className="now-para">{p}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE
+   ═══════════════════════════════════════════════ */
 export default function NowPage() {
   const ref = useRef<HTMLElement>(null!);
   useReveal(ref);
 
   return (
-    <main ref={ref} className="page-wrap now-page">
+    <main ref={ref} className="page-wrap">
+      <div className="now-layout">
+        {/* ════ MAIN CONTENT ════ */}
+        <div className="now-main">
+          {/* Header */}
+          <div className="now-header reveal">
+            <p className="page-eyebrow">Now</p>
+            <h1 className="now-headline">What I&apos;m focused on.</h1>
+            <p className="now-updated">{UPDATED}</p>
+          </div>
 
-      <div className="now-header reveal">
-        <p className="page-eyebrow">Now</p>
-        <h1 className="now-headline">What I&apos;m focused on.</h1>
-        <p className="now-updated">{UPDATED}</p>
-      </div>
+          {/* Dashboard */}
+          <div className="now-dash reveal" style={{ transitionDelay: "40ms" }}>
+            <div className="now-dash-item">
+              <span className="now-dash-val"><AnimatedCounter target={2} /></span>
+              <span className="now-dash-label">Active Projects</span>
+            </div>
+            <div className="now-dash-item">
+              <span className="now-dash-val"><AnimatedCounter target={7} /></span>
+              <span className="now-dash-label">Books This Year</span>
+            </div>
+            <div className="now-dash-item">
+              <span className="now-dash-val"><AnimatedCounter target={84} /></span>
+              <span className="now-dash-label">Days Into Sem</span>
+            </div>
+            <div className="now-dash-item">
+              <span className="now-dash-val"><AnimatedCounter target={32} /><small> avg</small></span>
+              <span className="now-dash-label">Commits / Week</span>
+            </div>
+          </div>
 
-      <div className="now-sections">
-        {NOW.map((s, i) => (
-          <article
-            key={s.tag}
-            className="now-section reveal"
-            style={{ transitionDelay: `${80 + i * 70}ms` }}
-          >
-            <header className="now-section-head">
-              <span className="now-section-tag">{s.tag}</span>
-              <h2 className="now-section-heading">{s.heading}</h2>
-            </header>
-            <div className="now-section-body">
-              {s.body.map((p, j) => (
-                <p key={j} className="now-para">{p}</p>
+          {/* Accordion */}
+          <div className="now-acc">
+            {NOW.map((s, i) => (
+              <AccordionSection key={s.tag} section={s} index={i} />
+            ))}
+          </div>
+
+          {/* Footer */}
+          <p className="now-footer reveal" style={{ transitionDelay: "400ms" }}>
+            A /now page is a snapshot, not a statement. Things change fast.
+          </p>
+        </div>
+
+        {/* ════ RIGHT SIDEBAR (pinned to right edge) ════ */}
+        <aside className="now-sidebar">
+          <div className="sidebar-card reveal" style={{ transitionDelay: "100ms" }}>
+            <div className="sidebar-status-row">
+              <span className="sidebar-status-dot" />
+              <span className="sidebar-status-text">Online · Building</span>
+            </div>
+          </div>
+
+          <div className="sidebar-card reveal" style={{ transitionDelay: "160ms" }}>
+            <span className="sidebar-card-label">Local Time — Chennai</span>
+            <LiveClock />
+          </div>
+
+          <div className="sidebar-card sidebar-card-focus reveal" style={{ transitionDelay: "220ms" }}>
+            <span className="sidebar-card-label">Focus Allocation</span>
+            <FocusRing />
+          </div>
+
+          <div className="sidebar-card reveal" style={{ transitionDelay: "280ms" }}>
+            <span className="sidebar-card-label">Current Stack</span>
+            <div className="sidebar-stack">
+              {STACK.map((s) => (
+                <span key={s} className="sidebar-stack-chip">{s}</span>
               ))}
             </div>
-          </article>
-        ))}
+          </div>
+        </aside>
       </div>
-
-      <p className="now-footer reveal" style={{ transitionDelay: `${80 + NOW.length * 70 + 40}ms` }}>
-        A /now page is a snapshot, not a statement. Things change fast.
-      </p>
-
     </main>
   );
 }
