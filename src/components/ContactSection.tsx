@@ -3,7 +3,7 @@ import { useRef, useState, ChangeEvent, FormEvent } from "react";
 import { useReveal } from "@/hooks/useReveal";
 
 const MAX_CHARS = 3000;
-const EMAIL = "viditjain.work@gmail.com";
+const EMAIL = "viditdang9@gmail.com";
 
 export default function ContactSection() {
   const ref = useRef<HTMLElement>(null!);

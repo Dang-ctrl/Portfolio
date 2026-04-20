@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({ subsets:["latin"], weight:["300","400"], 
 const lora      = Lora({ subsets:["latin"], weight:["400","500"], style:["normal","italic"], variable:"--font-body", display:"swap" });
 
 export const metadata: Metadata = {
-  title: "Vidit Jain",
+  title: "Vidit Dang",
   description: "Builder, creative technologist, and Corporate Rep at 4ZE Racing. B.Tech CSE at SRM University.",
 };
 

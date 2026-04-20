@@ -481,11 +481,29 @@ body {
   color: var(--acc-hi);
 }
 
-/* ── INNER PAGE LAYOUT ────────── */
+/* ── INNER PAGE LAYOUT ───────────────── */
 .page-wrap {
   min-height: calc(100vh - 52px);
-  padding: 48px 36px 60px;
+  padding: 40px 36px 72px;
   position: relative; z-index: 1;
+}
+
+/* Frosted-glass blur layer over the animated background on inner pages */
+.page-wrap::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter: blur(8px) saturate(110%);
+  -webkit-backdrop-filter: blur(8px) saturate(110%);
+  background: rgba(8, 8, 8, 0.14);
+  pointer-events: none;
+}
+.dark .page-wrap::before {
+  background: rgba(8, 8, 8, 0.14);
+}
+html:not(.dark) .page-wrap::before {
+  background: rgba(237, 235, 228, 0.14);
 }
 .page-eyebrow {
   font-family: var(--font-mono);
@@ -811,7 +829,8 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--dim);
-  margin-top: 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
   transition: color 0.5s;
 }
 /* ── CRAFT PAGE (v2 — premium) ── */
@@ -910,11 +929,15 @@ body {
   margin-bottom: 48px;
 }
 
-/* ── Craft cards (2×2 grid) ── */
+/* ── Craft cards (2-col, last card full-width if odd) ── */
 .craft-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+/* Make a lone last card span full width */
+.craft-cards-grid > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .craft-card-v2 {
@@ -1022,14 +1045,14 @@ body {
 /* ── Proficiency section ── */
 .craft-prof {
   border-top: 0.5px solid var(--bdr);
-  padding-top: 32px;
+  padding-top: 36px;
   margin-bottom: 48px;
   transition: border-color 0.5s;
 }
 .craft-prof-grid {
   display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 48px;
+  grid-template-columns: 1fr 260px;
+  gap: 52px;
   align-items: start;
 }
 .craft-prof-bars {
@@ -1150,29 +1173,36 @@ body {
 
 /* ── BOOKS GRID ───────────────── */
 .books-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  /* 4-col so 7 books land as 4+3 instead of 3+3+1 */
+  grid-template-columns: repeat(4, 1fr);
   border-top: 0.5px solid var(--bdr);
   border-left: 0.5px solid var(--bdr);
   transition: border-color 0.5s;
 }
 .book-card {
-  padding: 14px 16px;
+  padding: 18px 20px;
   border-right: 0.5px solid var(--bdr);
   border-bottom: 0.5px solid var(--bdr);
   cursor: pointer;
   transition: background 0.2s, border-color 0.5s;
 }
 .book-card:hover { background: var(--raised); }
-.book-title  { font-family: var(--font-serif); font-style: italic; font-size: 17px; letter-spacing: -0.01em; color: var(--pri); margin-bottom: 3px; line-height: 1.1; transition: color 0.5s; }
-.book-author { font-family: var(--font-body); font-size: 14px; color: var(--sec); transition: color 0.5s; }
-.book-tag    { font-family: var(--font-mono); font-size: 7.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--acc-hi); margin-top: 8px; }
+.book-title  { font-family: var(--font-serif); font-style: italic; font-size: 16px; letter-spacing: -0.01em; color: var(--pri); margin-bottom: 4px; line-height: 1.2; transition: color 0.5s; }
+.book-author { font-family: var(--font-body); font-size: 13px; color: var(--sec); transition: color 0.5s; }
+.book-tag    { font-family: var(--font-mono); font-size: 7.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--acc-hi); margin-top: 10px; }
 
 /* ── IDEAS ────────────────────── */
-.ideas-wrap { padding: 20px 0; }
-.ideas-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sec); margin-bottom: 14px; transition: color 0.5s; }
-.idea-item { display: flex; gap: 12px; align-items: baseline; margin-bottom: 14px; }
-.idea-dash { color: var(--acc-hi); font-size: 14px; }
-.idea-text { font-family: var(--font-serif); font-style: italic; font-size: clamp(16px, 2.5vw, 22px); font-weight: 300; color: var(--pri); line-height: 1.2; transition: color 0.5s; }
+.ideas-wrap {
+  padding: 28px 0 20px;
+  border-top: 0.5px solid var(--bdr);
+  margin-top: 8px;
+  transition: border-color 0.5s;
+}
+.ideas-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sec); margin-bottom: 18px; transition: color 0.5s; }
+.idea-item { display: flex; gap: 12px; align-items: baseline; margin-bottom: 16px; }
+.idea-dash { color: var(--acc-hi); font-size: 14px; flex-shrink: 0; }
+.idea-text { font-family: var(--font-serif); font-style: italic; font-size: clamp(15px, 2vw, 19px); font-weight: 300; color: var(--pri); line-height: 1.35; transition: color 0.5s; }
 
 /* ── STAGGER REVEALS ──────────── */
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
@@ -1289,10 +1319,10 @@ body {
 }
 .hero-card-body {
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.9;
   color: var(--sec);
-  max-width: 400px;
+  max-width: 420px;
   transition: color 0.5s;
 }
 .hero-cta {
@@ -1634,29 +1664,29 @@ body {
   min-height: calc(100vh - 52px);
 }
 .now-main {
-  padding-right: 48px;
+  padding-right: 52px;
   border-right: 0.5px solid var(--bdr);
   transition: border-color 0.5s;
 }
 
 .now-header {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 .now-headline {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(42px, 7vw, 80px);
+  font-size: clamp(38px, 6vw, 72px);
   font-weight: 300;
   letter-spacing: -0.02em;
   line-height: 1.0;
   color: var(--pri);
-  margin-bottom: 20px;
-  margin-top: 10px;
+  margin-bottom: 14px;
+  margin-top: 8px;
   transition: color 0.5s;
 }
 .now-updated {
   font-family: var(--font-mono);
-  font-size: 8.5px;
+  font-size: 8px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--dim);
@@ -1811,18 +1841,31 @@ body {
   overflow: hidden;
 }
 .acc-body-inner {
-  padding: 0 20px 24px 16px;
+  padding: 0 24px 28px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .now-para {
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.8;
   color: var(--sec);
   transition: color 0.5s;
+  position: relative;
+  padding-left: 12px;
+}
+.now-para::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--acc-hi);
+  opacity: 0.7;
 }
 
 .now-footer {

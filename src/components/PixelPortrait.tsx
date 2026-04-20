@@ -5,7 +5,7 @@ export default function PixelPortrait() {
     <div className="landing-right" style={{ position: "relative" }}>
       <img
         src="/pics/portrait.png"
-        alt="Vidit Jain — pixel portrait"
+        alt="Vidit Dang — pixel portrait"
         style={{
           display: "block",
           width: "100%",

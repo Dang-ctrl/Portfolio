@@ -18,7 +18,7 @@ export default function Nav() {
   return (
     <div className="nav-wrap">
       <div className="nav-top">
-        <TLink href="/" className="nav-logo">Vidit Jain</TLink>
+        <TLink href="/" className="nav-logo">Vidit Dang</TLink>
 
         <nav className="nav-links">
           {LINKS.map(({ href, label }) => (

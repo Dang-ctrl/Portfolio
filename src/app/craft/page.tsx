@@ -19,28 +19,35 @@ const CRAFTS: CraftItem[] = [
     domain: "Frontend",
     num: "01",
     title: "Scroll Cinematics",
-    body: "Building Paridhan's hero taught me how to orchestrate GSAP timelines with canvas — when to use requestAnimationFrame vs ScrollTrigger, and when to let silence do the work.",
+    body: "Building Paridhan taught me how to design motion with intent — when to orchestrate timelines and when to let stillness carry the experience.",
     from: "Paridhan",
   },
   {
     domain: "Systems",
     num: "02",
-    title: "Network Thinking",
-    body: "Designing IoT probe sniffing in promiscuous mode reframes how I architect any system — always at the protocol level first, then the application layer.",
-    from: "IoT Detector",
+    title: "Systems Thinking",
+    body: "Designing real-world systems like payment workflows and AI tools shaped how I think — structure first, edge cases next, interfaces last.",
+    from: "Payment System",
   },
   {
     domain: "Product",
     num: "03",
-    title: "B2B Framing",
-    body: "ALLOY pushed me to think in customer acquisition cost, not features. The Apple-style silent video came from understanding that restraint sells harder than noise.",
+    title: "Product Framing",
+    body: "Working on fintech products pushed me to think beyond features — focusing on user behavior, conversion, and how value is actually delivered.",
     from: "ALLOY",
   },
   {
-    domain: "Creative",
+    domain: "AI",
     num: "04",
+    title: "Intelligent Systems",
+    body: "Building AI-driven systems taught me to design around uncertainty — balancing logic, data, and user trust in every interaction.",
+    from: "CREDMATCH · Astrology AI",
+  },
+  {
+    domain: "Creative",
+    num: "05",
     title: "Concept Direction",
-    body: "Every project gets a visual identity before it gets a codebase. I design the emotional experience first — then reverse-engineer the stack to deliver it precisely.",
+    body: "Every project starts as a concept — I define the feel, the narrative, and the intent before a single line of code is written.",
     from: "All projects",
   },
 ];
@@ -52,23 +59,24 @@ interface StatItem {
 
 const STATS: StatItem[] = [
   { value: "8+", label: "Projects shipped" },
-  { value: "4",  label: "Domains of work" },
+  { value: "5",  label: "Domains of work" },
   { value: "2+", label: "Years building" },
 ];
 
 const TOOLS = [
-  { name: "React / Next.js", level: 95 },
-  { name: "TypeScript",      level: 90 },
-  { name: "Design Systems",  level: 85 },
-  { name: "GSAP / Motion",   level: 80 },
-  { name: "Node / Python",   level: 75 },
-  { name: "Figma",           level: 85 },
+  { name: "React / Next.js", level: 75 },
+  { name: "TypeScript",      level: 76 },
+  { name: "GSAP / Motion",   level: 68 },
+  { name: "Node / Python",   level: 82 },
+  { name: "System Design",   level: 72 },
+  { name: "AI / APIs",       level: 68 },
+  { name: "Figma",           level: 67 },
 ];
 
 const EDU = [
   { label: "Currently studying", val: "B.Tech CSE — Networking", sub: "SRM University · 2022–2026" },
   { label: "Active in",          val: "Competitive Programming",   sub: "Hackathons, algorithm contests" },
-  { label: "Certifications",     val: "NPTEL — 8-week course",     sub: "Ongoing" },
+  { label: "Certifications",     val: "Hackathon Builder — AI & Fintech Systems",     sub: "Built and shipped solutions under real-world constraints" },
 ];
 
 /* ═══════════════════════════════════════════════

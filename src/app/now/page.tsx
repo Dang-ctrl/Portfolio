@@ -25,34 +25,42 @@ const NOW: NowSection[] = [
     tag: "02 / Learning",
     heading: "Learning.",
     body: [
-      "Computer networking — properly. Not the conceptual layer-by-layer overview, but the part where packets actually move and why latency behaves the way it does. Doing this alongside my B.Tech CSE at SRM.",
-      "Also deep in typesetting. The more you read about type, the more you can't un-see bad kerning in the wild. It's a curse with good side effects.",
+      "Systems — networking, backend flows, and how things behave under load.",
+      "Product — why things work, where they fail, and what actually delivers value.",
+      "AI — not just models, but how they fit into real workflows.",
+      "Design — type, spacing, and the small decisions that change how something feels.",
+      "Trying to understand how all of it connects — not as separate skills, but as one system.",
     ],
   },
   {
     tag: "03 / Thinking about",
     heading: "Thinking about.",
     body: [
-      "Whether premium software has to be expensive to feel premium, or whether that's just a habit of the industry. The answer is probably no, but nobody acts like it.",
-      "The gap between what an interface communicates and what a user experiences. Most UI problems are communication problems. The pixel work is the last 10%.",
+      "Why most 'premium' products rely on pricing, not design.",
+      "How much of a product is just communication — the system works, but the user never feels it.",
+      "Where complexity hides, and why simple interfaces often mask complicated decisions underneath.",
+      "What makes something feel obvious — and why most things don't.",
     ],
   },
   {
     tag: "04 / Reading",
     heading: "Reading.",
     body: [
-      "The Design of Everyday Things — for the third time, and still finding new edges. Also halfway through Zero to One, which is either deeply obvious or quietly radical depending on the day.",
+      "The Design of Everyday Things — still relevant, still mostly ignored.",
+      "Zero to One — either obvious or uncomfortable, depending on the page.",
     ],
   },
   {
     tag: "05 / Outside all of this",
     heading: "Outside all of this.",
     body: [
-      "Running the corporate relations arm of 4ZE Racing, SRM's Formula Student EV team. Mostly emails, some strategy, occasional calls with people who take motorsport very seriously.",
-      "Trying to spend more time away from screens before midnight. Failing consistently. Getting better at failing gracefully.",
+      "Some work with 4ZE Racing — conversations, partnerships, and seeing how things move outside code.",
+      "Trying to spend less time on screens late at night. Not going well.",
+      "Thinking more about what to build next than what to consume.",
     ],
   },
 ];
+
 
 const UPDATED = "April 2025 — Chennai";
 

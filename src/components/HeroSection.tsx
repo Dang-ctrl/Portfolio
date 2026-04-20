@@ -52,8 +52,11 @@ export default function HeroSection() {
           <div className="hero-card-inner">
             <p className="hero-card-label">About</p>
             <p className="hero-card-body">
-              Builder and creative technologist. I care not just about how a site looks, but how it
-              performs, scales, and feels — from fintech to formula EV to cinematic web.
+              I build systems that are meant to be used — not just seen.
+              Most of my work sits at the intersection of product, engineering, and design.
+              I care about how things perform, scale, and feel in real use — where small decisions compound.
+              From fintech platforms to AI tools to cinematic interfaces, the goal stays the same:
+              make it work, make it clear, make it inevitable.
             </p>
             <HeroLink href="/work" label="View work" />
           </div>
@@ -64,9 +67,10 @@ export default function HeroSection() {
           <div className="hero-card-inner">
             <p className="hero-card-label">Currently</p>
             <p className="hero-card-body">
-              B.Tech CSE — Computer Networking at SRM University.
-              Corporate Rep at 4ZE Racing Formula Student EV team.
-              Open to collaborations.
+              B.Tech CSE (Networking) at SRM.<br />
+              Working across fintech, AI, and product systems.<br />
+              Part of 4ZE Racing — handling partnerships and external strategy.<br />
+              Open to building things that matter.
             </p>
             <HeroLink href="/thinking" label="How I think" />
           </div>
