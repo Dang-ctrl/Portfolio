@@ -7,19 +7,12 @@ export function useReveal(ref: RefObject<HTMLElement>, delay = 0) {
       ref.current?.querySelectorAll<HTMLElement>(".reveal, .reveal-left") ?? []
     );
     if (!els.length) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const el = e.target as HTMLElement;
-          const i  = els.indexOf(el);
-          setTimeout(() => el.classList.add("visible"), delay + i * 55);
-          io.unobserve(el);
-        });
-      },
-      { threshold: 0.12 }
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [ref, delay]);
+
+    // Fire immediately on mount — no waiting for IO.
+    // Elements are already in the viewport; a tight stagger is all we need.
+    els.forEach((el, i) => {
+      setTimeout(() => el.classList.add("visible"), delay + i * 35);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 }

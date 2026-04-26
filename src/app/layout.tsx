@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Anton, DM_Sans, DM_Mono, Cormorant_Garamond, Lora } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
@@ -12,6 +12,12 @@ const dmSans    = DM_Sans({ subsets:["latin"], weight:["300","400","500"], varia
 const dmMono    = DM_Mono({ subsets:["latin"], weight:["300","400"], variable:"--font-mono", display:"swap" });
 const cormorant = Cormorant_Garamond({ subsets:["latin"], weight:["300","400"], style:["normal","italic"], variable:"--font-serif", display:"swap" });
 const lora      = Lora({ subsets:["latin"], weight:["400","500"], style:["normal","italic"], variable:"--font-body", display:"swap" });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Vidit Dang",

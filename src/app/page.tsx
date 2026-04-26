@@ -8,7 +8,7 @@ export default function Home() {
   useReveal(ref);
 
   return (
-    <main ref={ref} style={{ paddingTop: 52 }}>
+    <main ref={ref} className="landing-root">
       {/* ── Centered Hero ─────────────────────── */}
       <section className="hero-center">
         <p className="hero-greeting reveal">Hello, this is</p>

@@ -1,17 +1,29 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { MouseEvent, ReactNode } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { MouseEvent, ReactNode, AnchorHTMLAttributes } from "react";
 import { fireWipeOut, setWipeDest } from "./PageWipe";
 
-interface Props { href: string; children: ReactNode; className?: string; style?: React.CSSProperties; }
+interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  href: string;
+  children: ReactNode;
+}
 
-export default function TLink({ href, children, className, style }: Props) {
-  const router = useRouter();
-  const handle = async (e: MouseEvent) => {
+export default function TLink({ href, children, onClick: _onClick, ...rest }: Props) {
+  const router   = useRouter();
+  const pathname = usePathname();
+
+  const handle = async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setWipeDest(href);   // tell the overlay which icon to show
+    // Already on this page — do nothing to avoid a frozen wipe overlay
+    if (href === pathname) return;
+    setWipeDest(href);
     await fireWipeOut();
     router.push(href);
   };
-  return <a href={href} onClick={handle} className={className} style={style}>{children}</a>;
+
+  return (
+    <a href={href} onClick={handle} {...rest}>
+      {children}
+    </a>
+  );
 }

@@ -26,7 +26,8 @@ export default function Nav() {
               key={href}
               href={href}
               className="nav-link"
-              {...({ "data-active": pathname === href ? "true" : undefined } as object)}>
+              data-active={pathname === href ? "true" : undefined}
+            >
               {label}
             </TLink>
           ))}
