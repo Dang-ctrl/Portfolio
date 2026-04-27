@@ -214,6 +214,10 @@ body {
 .nav-link:hover { color: var(--pri); }
 .nav-link:hover::after { transform: scaleX(1); }
 
+.nav-link:last-child {
+  border-right: 0.5px solid var(--bdr);
+}
+
 /* active — green accent so the current page is unmistakable */
 .nav-link[data-active="true"] {
   color: var(--acc-hi);

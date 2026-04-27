@@ -84,10 +84,11 @@ const STACK: string[] = [
 ];
 
 const MILESTONES = [
-  { date: "Apr '25", text: "Shipped Alloy MVP — first B2B pilot", active: true },
-  { date: "Mar '25", text: "Repomind hit 1K autonomous reviews", active: false },
-  { date: "Feb '25", text: "Won CredMatch hackathon (fintech track)", active: false },
-  { date: "Jan '25", text: "Started semester 4 — systems + product focus", active: false },
+  { date: "Apr '26", text: "Launched portfolio v2 with SEO optimization & custom domain", active: true },
+  { date: "Mar '26", text: "Built full-stack payment tracker for family business operations", active: false },
+  { date: "Feb '26", text: "Developed FarmHub MVP connecting farmers with local buyers", active: false },
+  { date: "Jan '26", text: "Crossed 5+ deployed web projects milestone", active: false },
+  { date: "Dec '25", text: "Designed AI chatbot prototype for personalized astrology insights", active: false },
 ];
 
 const HABITS = [
@@ -221,14 +222,15 @@ function FocusRing() {
 /* ═══════════════════════════════════════════════
    SEMESTER PROGRESS BAR
    ═══════════════════════════════════════════════ */
-function SemProgress() {
+function SemProgress({ days }: { days: number }) {
   const [width, setWidth] = useState(0);
-  const pct = 56; // 84 / 150 days ≈ 56%
+  const total = 150;
+  const pct = Math.min(Math.round((days / total) * 100), 100);
 
   useEffect(() => {
     const t = setTimeout(() => setWidth(pct), 300);
     return () => clearTimeout(t);
-  }, []);
+  }, [pct]);
 
   return (
     <div className="now-sem-progress">
@@ -238,7 +240,7 @@ function SemProgress() {
       </div>
       <div className="now-sem-labels">
         <span>Sem start</span>
-        <span>Day 84 / 150</span>
+        <span>Day {days} / {total}</span>
         <span>Finals</span>
       </div>
     </div>
@@ -286,6 +288,13 @@ function AccordionSection({ section, index }: { section: NowSection; index: numb
 export default function NowPage() {
   const ref = useRef<HTMLElement>(null!);
   useReveal(ref);
+  const [daysIntoSem, setDaysIntoSem] = useState(112);
+
+  useEffect(() => {
+    const start = new Date("2026-01-05T00:00:00+05:30");
+    const diff = new Date().getTime() - start.getTime();
+    setDaysIntoSem(Math.floor(diff / (1000 * 60 * 60 * 24)));
+  }, []);
 
   return (
     <main ref={ref} className="page-wrap">
@@ -326,11 +335,11 @@ export default function NowPage() {
               <span className="now-dash-label">Books This Year</span>
             </div>
             <div className="now-dash-item">
-              <span className="now-dash-val"><AnimatedCounter target={84} /></span>
+              <span className="now-dash-val"><AnimatedCounter target={daysIntoSem} /></span>
               <span className="now-dash-label">Days Into Sem</span>
             </div>
             <div className="now-dash-item">
-              <span className="now-dash-val"><AnimatedCounter target={32} /><small> avg</small></span>
+              <span className="now-dash-val"><AnimatedCounter target={12} /><small> avg</small></span>
               <span className="now-dash-label">Commits / Week</span>
             </div>
           </div>
@@ -338,7 +347,7 @@ export default function NowPage() {
           {/* Semester progress */}
           <div className="now-sem-wrap reveal" style={{ transitionDelay: "50ms" }}>
             <span className="now-section-label">Semester progress</span>
-            <SemProgress />
+            <SemProgress days={daysIntoSem} />
           </div>
 
           {/* Accordion */}

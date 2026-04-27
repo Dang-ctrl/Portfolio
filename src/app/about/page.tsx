@@ -34,7 +34,7 @@ const EXPERIENCE = [
   { role: "Product Engineer", org: "Alloy (Fintech)", period: "2024 – Present" },
   { role: "AI Agent Builder", org: "Repomind", period: "2024 – Present" },
   { role: "Partnerships Lead", org: "4ZE Racing", period: "2023 – Present" },
-  { role: "Hackathon Winner", org: "CredMatch (Fintech)", period: "2024" },
+  { role: "Hackathon Finalist", org: "CredMatch (Fintech)", period: "2024" },
 ];
 
 const CONNECT = [
