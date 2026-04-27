@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${anton.variable} ${dmSans.variable} ${dmMono.variable} ${cormorant.variable} ${lora.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`dark ${anton.variable} ${dmSans.variable} ${dmMono.variable} ${cormorant.variable} ${lora.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <ThemeProvider>
           <ConcentricRings />
