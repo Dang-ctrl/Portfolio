@@ -2,10 +2,19 @@
 import { useRef } from "react";
 import { useReveal }  from "@/hooks/useReveal";
 import NavCards       from "@/components/NavCards";
+import { useRouter } from "next/navigation";
+import { fireWipeOut, setWipeDest } from "@/components/PageWipe";
 
 export default function Home() {
   const ref = useRef<HTMLElement>(null!);
   useReveal(ref);
+  const router = useRouter();
+
+  const goContact = async () => {
+    setWipeDest("/about#contact");
+    await fireWipeOut();
+    router.push("/about#contact");
+  };
 
   return (
     <main ref={ref} className="landing-root">
@@ -35,9 +44,9 @@ export default function Home() {
       {/* ── Footer Bar ────────────────────────── */}
       <footer className="landing-footer-bar">
         <div className="landing-footer-left">
-          <a href="mailto:vidit@email.com" className="landing-footer-link">
+          <button onClick={goContact} className="landing-footer-link">
             Contact ↗
-          </a>
+          </button>
           <span className="landing-footer-sep">·</span>
           <span className="landing-footer-link" style={{ cursor: "default", color: "var(--dim)" }}>
             This Portfolio

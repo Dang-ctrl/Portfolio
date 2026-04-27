@@ -202,7 +202,7 @@ export default function AboutPage() {
       </div>
 
       {/* ══ CONTACT ══ */}
-      <div className="abt-contact reveal" style={{ transitionDelay: "100ms" }}>
+      <div id="contact" className="abt-contact reveal" style={{ transitionDelay: "100ms" }}>
         <div className="abt-contact-form-col">
           <span className="abt-section-label">Contact</span>
           <h2 className="abt-contact-heading">Start a conversation.</h2>
