@@ -78,13 +78,39 @@ export default function AboutPage() {
   const handleMsg = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= MAX_CHARS) setMessage(e.target.value);
   };
-  const handleSubmit = (e: FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
-    const mailto = `mailto:${EMAIL}?subject=Hey Vidit — from ${encodeURIComponent(name)}&body=${encodeURIComponent(message)}%0A%0A— ${encodeURIComponent(name)} (${encodeURIComponent(email)})`;
-    window.open(mailto);
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    
+    setLoading(true);
+    try {
+      await fetch("https://formsubmit.co/ajax/viditdang9@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          _subject: `Portfolio Message from ${name}`,
+        }),
+      });
+      
+      setSent(true);
+      setName("");
+      setEmail("");
+      setMessage("");
+      setTimeout(() => setSent(false), 4000);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send message. Please try the direct email link.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -207,7 +233,9 @@ export default function AboutPage() {
               <span className="abt-counter">{message.length}/{MAX_CHARS}</span>
             </div>
             <div className="abt-form-actions">
-              <button type="submit" className="abt-send">{sent ? "Sent ✓" : "Send →"}</button>
+              <button type="submit" className="abt-send" disabled={loading}>
+                {loading ? "Sending..." : sent ? "Sent ✓" : "Send →"}
+              </button>
               <a href={`mailto:${EMAIL}`} className="abt-direct">
                 Or email directly: <span>{EMAIL}</span>
               </a>

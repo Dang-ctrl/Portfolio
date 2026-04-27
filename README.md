@@ -1,55 +1,50 @@
-# Vidit Jain — Portfolio v3
+# Vidit Dang — Premium Developer Portfolio
 
-Minimal editorial portfolio with pixel portrait landing, bold Anton headlines, and cinematic page wipe transitions.
+A high-performance, cinematic developer portfolio built with Next.js App Router. Features a responsive grid system, an interactive side-drawer project showcase, animated SVG backgrounds, and a seamless light/dark mode experience.
 
 ## Stack
-- **Next.js 14** App Router
-- **Anton** — display headlines
-- **DM Sans** — body text & nav
-- **DM Mono** — labels, tags, eyebrows
-- **Cormorant Garamond** — italic quotes
-- **Tailwind CSS** — utilities
-- **Canvas API** — pixel portrait + contour bg
+- **Next.js 14** (App Router)
+- **React 18**
+- **TypeScript**
+- **Tailwind CSS** — utility-based styling
+- **Vanilla CSS / CSS Grid** — complex layout animations and sticky positioning
+- **FormSubmit** — serverless email forwarding for contact forms
 
-## Pages
+## Typography
+- **Anton** — display headlines and marquee
+- **DM Sans** — body text & nav links
+- **DM Mono** — labels, tags, eyebrows, and code
+- **Cormorant Garamond** — italic quotes and massive serifs
+- **Lora** — rich body copy
+
+## Architecture & Pages
 
 | Route | Description |
 |---|---|
-| `/` | Split landing — bio left, pixel portrait right. Subtle links to all sections woven into copy. |
-| `/work` | Project list with Anton headlines, hover fill, click-to-expand case studies |
-| `/craft` | Skills shown through projects in a 2×2 grid + stat strip |
-| `/thinking` | Books (click to expand note), influences, italic mental notes |
+| `/` | Split landing page featuring interactive navigation cards and dynamic hover tracking. |
+| `/about` | Deep dive into principles, experience timeline, and an integrated FormSubmit contact form. |
+| `/work` | Project list with interactive hovering, expanding into a fixed side-drawer for in-depth case studies. |
+| `/craft` | A 2×2 grid showcasing technical skills, philosophies, and a real-time stat strip. |
+| `/thinking` | A collection of books, UX intuitions, and mental models with a concentric ring background. |
+| `/now` | A live dashboard of current focus areas, dynamic semester progress, and recent milestones. |
 
-## Features
-- **Page wipe transition** — green scaleY overlay between every route
-- **Custom cursor** — dot + lagging ring
-- **Pixel portrait** — generative face rendered on canvas, redraws on theme switch
-- **Theme persistence** — saved to localStorage, no flash on reload
-- **Light / dark mode** — warm cream (#EDEBE4) ↔ void black (#080808)
-- **Stagger reveals** — IntersectionObserver per element on mount
-- **Marquee** — Anton ticker on Work page
+## Key Features
+- **Page wipe transition** — cinematic overlay and animated rings between every route change.
+- **Custom cursor** — tracking dot + lagging ring effect for a premium feel.
+- **FormSubmit integration** — functional contact form out-of-the-box (requires 1-click email activation).
+- **Responsive design** — scales elegantly from mobile to 4K monitors.
+- **Theme persistence** — defaults to light mode with a smooth, flash-free dark mode toggle.
+- **Stagger reveals** — hardware-accelerated IntersectionObserver animations on scroll.
 
-## Run locally
+## Run Locally
 ```bash
 npm install
 npm run dev
 # → http://localhost:3000
 ```
 
-## Deploy
-Push to GitHub → connect to Vercel. Zero config needed for Next.js 14.
-
-## Customise
-
-| What | Where |
-|---|---|
-| Bio copy & contact links | `src/app/page.tsx` |
-| Projects | `src/app/work/page.tsx` → `PROJECTS` array |
-| Craft cells | `src/app/craft/page.tsx` → `CRAFTS` array |
-| Books / influences / notes | `src/app/thinking/page.tsx` |
-| Colours | `src/app/globals.css` `:root` and `.dark` blocks |
-| Pixel portrait pixel size | `src/components/PixelPortrait.tsx` → `const px = 9` |
-| Nav links | `src/components/Nav.tsx` → `LINKS` array |
+## Deployment
+Push to GitHub and connect to Vercel. Zero configuration is needed for Next.js.
 
 ---
-Built with Claude · 2025
+*Built in 2026 for Vidit Dang.*
