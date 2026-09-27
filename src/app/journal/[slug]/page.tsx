@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import TLink from "@/components/TLink";
 import { CATEGORIES, formatDate, getAllPosts, getPost } from "@/lib/journal";
 
 export const dynamicParams = false;
@@ -32,60 +32,46 @@ export default function PostPage({ params }: { params: { slug: string } }) {
 
   const all = getAllPosts();
   const idx = all.findIndex((p) => p.slug === post.slug);
-  const newer = all[idx - 1];
   const older = all[idx + 1];
 
   return (
-    <main className="page container post">
-      <Link href="/journal" className="back-link reveal">← Journal</Link>
+    <main className="page">
+      <TLink href="/journal" className="back link" data-reveal>← Journal</TLink>
 
-      <header className="post-head reveal">
-        <div className="post-meta">
-          <span className="badge" data-cat={post.category}>{CATEGORIES[post.category].label}</span>
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-          {post.location && <span>· {post.location}</span>}
-          <span>· {post.readingMinutes} min read</span>
-        </div>
-        <h1 className="h1 post-title">{post.title}</h1>
-        {post.summary && <p className="lead">{post.summary}</p>}
-        {post.tags.length > 0 && (
-          <div className="chips">
-            {post.tags.map((t) => <span key={t} className="chip">{t}</span>)}
-          </div>
+      <article className="post">
+        <header className="post-head">
+          <p className="post-meta" data-reveal>
+            <span>{CATEGORIES[post.category].label}</span>
+            <time dateTime={post.date} className="tabular">{formatDate(post.date)}</time>
+            {post.location && <span>{post.location}</span>}
+          </p>
+          <h1 className="h-post" data-split>{post.title}</h1>
+          {post.summary && <p className="lede" data-reveal>{post.summary}</p>}
+        </header>
+
+        {post.cover && (
+          <figure className="post-cover" data-reveal>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={post.cover} alt={post.coverAlt ?? ""} />
+          </figure>
         )}
-      </header>
 
-      {post.cover && (
-        <figure className="post-cover reveal">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={post.cover} alt={post.coverAlt ?? ""} />
-        </figure>
+        <div className="prose" data-reveal dangerouslySetInnerHTML={{ __html: post.html }} />
+
+        {(post.link || post.tags.length > 0) && (
+          <footer className="post-foot" data-reveal>
+            {post.tags.length > 0 && <span>{post.tags.join(" · ")}</span>}
+            {post.link && <a href={post.link} target="_blank" rel="noopener noreferrer" className="link">Related link ↗</a>}
+          </footer>
+        )}
+      </article>
+
+      {older && (
+        <TLink href={`/journal/${older.slug}`} className="next-project">
+          <span className="next-label" data-reveal>Previous entry</span>
+          <span className="next-name next-name--sm" data-split>{older.title}</span>
+        </TLink>
       )}
-
-      <article className="prose reveal" dangerouslySetInnerHTML={{ __html: post.html }} />
-
-      {post.link && (
-        <p className="reveal">
-          <a href={post.link} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-            Related link ↗
-          </a>
-        </p>
-      )}
-
-      <nav className="post-nav reveal" aria-label="More entries">
-        {older ? (
-          <Link href={`/journal/${older.slug}`} className="post-nav-link">
-            <span className="eyebrow">← Older</span>
-            <span>{older.title}</span>
-          </Link>
-        ) : <span />}
-        {newer ? (
-          <Link href={`/journal/${newer.slug}`} className="post-nav-link post-nav-link--next">
-            <span className="eyebrow">Newer →</span>
-            <span>{newer.title}</span>
-          </Link>
-        ) : <span />}
-      </nav>
     </main>
   );
 }

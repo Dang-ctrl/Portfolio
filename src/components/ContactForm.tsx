@@ -7,7 +7,6 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [message, setMessage] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +31,6 @@ export default function ContactForm() {
       // FormSubmit returns 200 with success:"false" on some failures — check both.
       if (!res.ok || String(json.success) === "false") throw new Error(json.message ?? res.statusText);
       setStatus("sent");
-      setMessage("");
       form.reset();
     } catch (err) {
       console.error(err);
@@ -54,21 +52,13 @@ export default function ContactForm() {
       </div>
       <label className="field">
         <span className="field-label">Message</span>
-        <textarea
-          name="message"
-          rows={6}
-          required
-          maxLength={MAX_CHARS}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <span className="field-count" aria-live="off">{message.length}/{MAX_CHARS}</span>
+        <textarea name="message" rows={5} required maxLength={MAX_CHARS} />
       </label>
       <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="visually-hidden" aria-hidden />
 
       <div className="form-actions">
-        <button type="submit" className="btn btn-primary" disabled={status === "sending"}>
-          {status === "sending" ? "Sending…" : "Send message →"}
+        <button type="submit" className="btn" disabled={status === "sending"}>
+          {status === "sending" ? "Sending…" : "Send message"}
         </button>
         <p className="form-status" role="status">
           {status === "sent" && "Thanks — message received. I'll reply within a day."}

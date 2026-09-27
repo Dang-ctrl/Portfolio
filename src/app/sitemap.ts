@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPostMetas } from "@/lib/journal";
 import { NAV_LINKS, SITE_URL } from "@/lib/site";
+import { PROJECTS } from "@/data/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = ["", ...NAV_LINKS.map((l) => l.href)].map((path) => ({
@@ -13,5 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: p.date,
     priority: 0.6,
   }));
-  return [...pages, ...posts];
+  const projects = PROJECTS.map((p) => ({ url: `${SITE_URL}/work/${p.slug}`, priority: 0.7 }));
+  return [...pages, ...projects, ...posts];
 }

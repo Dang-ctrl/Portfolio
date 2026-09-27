@@ -1,120 +1,108 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
-import { LiveClock } from "@/components/NowWidgets";
-import Stage from "@/components/three/Stage";
 import { SITE } from "@/lib/site";
+import portrait from "../../../public/pics/portrait.png";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Who I am, how I approach every project, experience, and how to get in touch.",
+  description: "Computer science student at SRM University in Chennai, working across product, engineering and design. How to get in touch.",
   alternates: { canonical: "/about" },
 };
 
-const PRINCIPLES = [
-  { num: "01", title: "Understand first.", tags: ["Research", "User needs", "Problem framing"],
-    desc: "Before writing code, I map the problem space. Users, constraints, edge cases — the system only works when the thinking is right." },
-  { num: "02", title: "Design with intent.", tags: ["UI/UX", "Systems thinking", "Visual clarity"],
-    desc: "Every decision — type, spacing, flow — is deliberate. Premium isn't decoration. It's the absence of anything unnecessary." },
-  { num: "03", title: "Build to last.", tags: ["Engineering", "Scale", "Quality"],
-    desc: "Clean architecture, real performance, zero shortcuts. If it ships, it should hold up under real traffic and real scrutiny." },
+const NOW = [
+  "Studying B.Tech CSE (Networking) at SRM University.",
+  "Building Alloy, a B2B credit-line platform, and Repomind, a code-review agent.",
+  "Partnerships and sponsorship at 4ZE Racing.",
 ];
 
 const EXPERIENCE = [
-  { role: "Product Engineer",   org: "Alloy (Fintech)",     period: "2024 – Present" },
-  { role: "AI Agent Builder",   org: "Repomind",            period: "2024 – Present" },
-  { role: "Partnerships Lead",  org: "4ZE Racing",          period: "2023 – Present" },
-  { role: "Hackathon Finalist", org: "CredMatch (Fintech)", period: "2024" },
+  { role: "Product engineer",   org: "Alloy",      period: "2024 — now" },
+  { role: "AI agent developer", org: "Repomind",   period: "2024 — now" },
+  { role: "Partnerships lead",  org: "4ZE Racing", period: "2023 — now" },
+  { role: "Hackathon finalist", org: "CredMatch",  period: "2024" },
+];
+
+const SHELF = [
+  { title: "The Design of Everyday Things", author: "Don Norman", note: "Affordances before aesthetics." },
+  { title: "Zero to One", author: "Peter Thiel", note: "What do you believe that few people agree with?" },
+  { title: "Computer Networks", author: "Andrew Tanenbaum", note: "Every layer is a promise to the one above it." },
+  { title: "The Almanack of Naval Ravikant", author: "Eric Jorgenson", note: "Code and media are leverage." },
 ];
 
 export default function AboutPage() {
   return (
-    <main className="page container">
-      <header className="page-hero reveal">
-        <p className="eyebrow">About</p>
-        <h1 className="h1">I build things that <em>matter.</em></h1>
-        <p className="lead">
-          Systems meant to be used — not just seen. Most of my work sits at the intersection of product,
-          engineering and design.
-        </p>
+    <main className="page">
+      <header className="about-head grid">
+        <div className="col-text">
+          <h1 className="h-page" data-split>About</h1>
+          <p className="lede" data-split data-delay="0.1">
+            I&apos;m Vidit — a computer science student in Chennai who likes turning messy, real-world problems
+            into products people actually use.
+          </p>
+          <p className="body" data-reveal>
+            I work across the whole thing: figuring out what to build, designing how it should feel, and writing
+            the code. Outside of software I do partnerships for 4ZE Racing, our Formula Student electric team,
+            which has taught me as much about building as any codebase.
+          </p>
+        </div>
+        <div className="col-portrait" data-reveal>
+          <Image src={portrait} alt="ASCII portrait of Vidit Dang" className="portrait" placeholder="blur" priority sizes="(max-width: 900px) 80vw, 32vw" />
+        </div>
       </header>
 
-      <div className="about-cards">
-        <div className="card about-card reveal">
-          <span className="eyebrow">Who I am</span>
-          <p className="body-1">
-            I care about how things perform, scale and feel in real use — where small decisions compound.
-            From fintech platforms to AI tools to cinematic interfaces, the goal stays the same: make it work,
-            make it clear, make it inevitable.
-          </p>
-          <Link href="/work" className="link-accent">View work →</Link>
-        </div>
-        <div className="card about-card reveal">
-          <span className="eyebrow">Currently</span>
-          <ul className="plain-list body-1">
-            <li>B.Tech CSE (Networking) at SRM University.</li>
-            <li>Working across fintech, AI and product systems.</li>
-            <li>At 4ZE Racing — partnerships &amp; external strategy.</li>
-            <li>Open to building things that matter.</li>
-          </ul>
-          <Link href="/now" className="link-accent">What I&apos;m doing now →</Link>
-        </div>
-      </div>
-
-      <section className="section">
-        <div className="section-head reveal"><p className="eyebrow">How I approach every project</p></div>
-        <div className="principles">
-          {PRINCIPLES.map((p) => (
-            <article key={p.num} className="principle reveal">
-              <span className="mono-num">{p.num}</span>
-              <div>
-                <h2 className="h3">{p.title}</h2>
-                <p className="body-2">{p.desc}</p>
-                <div className="chips">{p.tags.map((t) => <span key={t} className="chip">{t}</span>)}</div>
-              </div>
-            </article>
-          ))}
-        </div>
+      <section className="section split-list">
+        <h2 className="h-section" data-split>Now</h2>
+        <ul className="plain">
+          {NOW.map((n) => <li key={n} data-reveal>{n}</li>)}
+        </ul>
       </section>
 
-      <section className="section">
-        <div className="section-head section-head--row reveal">
-          <p className="eyebrow">Experience</p>
-          <Link href="/journal" className="link-accent">Achievements &amp; events →</Link>
-        </div>
-        <ul className="exp">
+      <section className="section split-list">
+        <h2 className="h-section" data-split>Experience</h2>
+        <ul className="rows">
           {EXPERIENCE.map((e) => (
-            <li key={e.role} className="exp-row reveal">
-              <span className="exp-role">{e.role}</span>
-              <span className="exp-org">{e.org}</span>
-              <span className="mono-num">{e.period}</span>
+            <li key={e.role} data-reveal>
+              <div className="row row--static">
+                <span className="row-title">{e.role}</span>
+                <span className="row-meta">{e.org}</span>
+                <span className="row-date tabular">{e.period}</span>
+              </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <section id="contact" className="section contact">
-        <div className="contact-form reveal">
-          <p className="eyebrow">Contact</p>
-          <h2 className="h2">Start a <em>conversation.</em></h2>
-          <p className="body-2">Work inquiries, collaborations, or just something worth saying.</p>
+      <section className="section split-list">
+        <h2 className="h-section" data-split>On the shelf</h2>
+        <ul className="rows">
+          {SHELF.map((b) => (
+            <li key={b.title} data-reveal>
+              <div className="row row--static row--book">
+                <span className="row-title">{b.title}</span>
+                <span className="row-meta">{b.author}</span>
+                <span className="row-note">{b.note}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="contact" className="section contact grid">
+        <div className="col-text">
+          <h2 className="h-section" data-split>Get in touch</h2>
+          <p className="body" data-reveal>
+            Internships, freelance work, collaborations — or just something worth saying. I usually reply within a day.
+          </p>
+          <ul className="contact-links" data-reveal>
+            <li><a href={`mailto:${SITE.email}`} className="link">{SITE.email}</a></li>
+            <li><a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className="link">LinkedIn ↗</a></li>
+            <li><a href={SITE.github} target="_blank" rel="noopener noreferrer" className="link">GitHub ↗</a></li>
+          </ul>
+        </div>
+        <div className="col-form" data-reveal>
           <ContactForm />
         </div>
-
-        <aside className="contact-side reveal">
-          <Stage scene="globe" className="globe-stage" label="Rotating dotted globe with Chennai highlighted — drag to spin" />
-          <dl className="contact-facts">
-            <div><dt>Local time</dt><dd><LiveClock className="mono-num" /></dd></div>
-            <div><dt>Based in</dt><dd>{SITE.location}</dd></div>
-            <div><dt>Response</dt><dd>Usually within 24h</dd></div>
-            <div><dt>Open to</dt><dd>Freelance · Full-time · Collabs · Internships</dd></div>
-          </dl>
-          <div className="contact-links">
-            <a href={SITE.github} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">GitHub ↗</a>
-            <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">LinkedIn ↗</a>
-            <a href={`mailto:${SITE.email}`} className="btn btn-ghost">Email ↗</a>
-          </div>
-        </aside>
       </section>
     </main>
   );

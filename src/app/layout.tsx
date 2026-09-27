@@ -1,23 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare } from "geist/font/pixel";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import RevealObserver from "@/components/RevealObserver";
-import Background from "@/components/three/Background";
+import SmoothScroll from "@/components/motion/SmoothScroll";
+import Curtain from "@/components/motion/Curtain";
+import Reveals from "@/components/motion/Reveals";
 import { SITE, SITE_URL } from "@/lib/site";
-
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
-const sans  = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const mono  = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: dark)",  color: "#07090a" },
-    { media: "(prefers-color-scheme: light)", color: "#f2f0e9" },
+    { media: "(prefers-color-scheme: dark)",  color: "#0b0b0a" },
+    { media: "(prefers-color-scheme: light)", color: "#ebe9e4" },
   ],
 };
 
@@ -25,37 +24,36 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: SITE.title, template: `%s — ${SITE.name}` },
   description: SITE.description,
-  openGraph: {
-    type: "website",
-    siteName: SITE.name,
-    title: SITE.title,
-    description: SITE.description,
-    url: "/",
-  },
+  openGraph: { type: "website", siteName: SITE.name, title: SITE.title, description: SITE.description, url: "/" },
   twitter: { card: "summary_large_image", title: SITE.title, description: SITE.description },
-  alternates: {
-    types: { "application/rss+xml": [{ url: "/journal/feed.xml", title: `${SITE.name} — Journal` }] },
-  },
+  alternates: { types: { "application/rss+xml": [{ url: "/journal/feed.xml", title: `${SITE.name} — Journal` }] } },
 };
 
-/* Runs before paint: applies the saved theme (no flash) and flags JS as available
-   so scroll-reveal styles only hide content when they can also show it again. */
-const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var t=localStorage.getItem('vj-theme');if(t==='light'){d.classList.remove('dark');}}catch(e){}})();`;
+/* Before paint: apply the saved theme, flag JS, and un-hide animated content
+   if the motion scripts haven't started within a few seconds. */
+const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var t=localStorage.getItem('vj-theme');if(t==='light'){d.classList.remove('dark');}setTimeout(function(){if(!window.__motion)d.classList.add('no-motion')},4000);}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${serif.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
         <ThemeProvider>
           <a href="#main" className="skip-link">Skip to content</a>
-          <Background />
+          <SmoothScroll />
           <Nav />
-          <div id="main" className="page-shell">{children}</div>
-          <Footer />
-          <RevealObserver />
+          <div id="main">
+            {children}
+            <Footer />
+          </div>
+          <Curtain />
+          <Reveals />
         </ThemeProvider>
       </body>
     </html>

@@ -1,34 +1,36 @@
-import Link from "next/link";
+import TLink from "./TLink";
+import LocalTime from "./LocalTime";
 import { SITE, NAV_LINKS } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="container footer-inner">
-        <div className="footer-cta">
-          <p className="eyebrow">Let&apos;s talk</p>
-          <p className="footer-heading">
-            Have something worth building? <Link href="/about#contact" className="link-accent">Start a conversation →</Link>
-          </p>
-        </div>
-
-        <div className="footer-cols">
-          <nav aria-label="Footer" className="footer-col">
-            {NAV_LINKS.map(({ href, label }) => (
-              <Link key={href} href={href} className="footer-link">{label}</Link>
-            ))}
-          </nav>
-          <div className="footer-col">
-            <a href={SITE.github} target="_blank" rel="noopener noreferrer" className="footer-link">GitHub ↗</a>
-            <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn ↗</a>
-            <a href={`mailto:${SITE.email}`} className="footer-link">Email ↗</a>
-            <a href="/journal/feed.xml" className="footer-link">RSS ↗</a>
-          </div>
-        </div>
+    <footer className="footer">
+      <div className="footer-top">
+        <p className="footer-lead" data-reveal>Have something in mind?</p>
+        <a href={`mailto:${SITE.email}`} className="footer-email" data-split>
+          {SITE.email}
+        </a>
       </div>
-      <div className="container footer-base">
-        <span>© {new Date().getFullYear()} {SITE.name}</span>
-        <span>{SITE.location}</span>
+
+      <div className="footer-grid">
+        <div className="footer-col">
+          <span className="footer-label">Pages</span>
+          <TLink href="/">Home</TLink>
+          {NAV_LINKS.map(({ href, label }) => <TLink key={href} href={href}>{label}</TLink>)}
+        </div>
+        <div className="footer-col">
+          <span className="footer-label">Elsewhere</span>
+          <a href={SITE.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="/journal/feed.xml">RSS</a>
+        </div>
+        <div className="footer-col">
+          <span className="footer-label">Chennai</span>
+          <LocalTime />
+        </div>
+        <div className="footer-col footer-copy">
+          <span>© {new Date().getFullYear()} {SITE.name}</span>
+        </div>
       </div>
     </footer>
   );

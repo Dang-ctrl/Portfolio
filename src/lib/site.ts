@@ -2,9 +2,9 @@
 
 export const SITE = {
   name: "Vidit Dang",
-  title: "Vidit Dang — Builder & Creative Technologist",
+  title: "Vidit Dang",
   description:
-    "Builder, creative technologist, and Corporate Rep at 4ZE Racing. B.Tech CSE at SRM University. Products and systems, built with intent.",
+    "Vidit Dang builds products — fintech tools, AI agents and the occasional bit of hardware. CSE at SRM University, partnerships at 4ZE Racing.",
   email: "viditdang9@gmail.com",
   location: "Chennai, India",
   timezone: "Asia/Kolkata",
@@ -22,10 +22,17 @@ export const SITE_URL = (
 ).replace(/\/$/, "");
 
 export const NAV_LINKS = [
-  { href: "/work",     label: "Work"     },
-  { href: "/craft",    label: "Craft"    },
-  { href: "/thinking", label: "Thinking" },
-  { href: "/journal",  label: "Journal"  },
-  { href: "/now",      label: "Now"      },
-  { href: "/about",    label: "About"    },
+  { href: "/work",    label: "Work"    },
+  { href: "/journal", label: "Journal" },
+  { href: "/about",   label: "About"   },
 ] as const;
+
+/* Label shown on the page-transition curtain for each route. */
+export function routeLabel(path: string) {
+  const clean = path.split(/[?#]/)[0];
+  if (clean === "/") return "Home";
+  if (clean.startsWith("/work/")) return "Case study";
+  if (clean.startsWith("/journal/")) return "Journal";
+  const hit = NAV_LINKS.find((l) => l.href === clean);
+  return hit ? hit.label : "";
+}
