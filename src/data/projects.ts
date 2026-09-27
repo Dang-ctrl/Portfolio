@@ -1,165 +1,125 @@
-export interface ProjectInteractive {
-  type: "flow" | "metrics" | "orbit" | "signal" | "graph" | "radar";
-  label: string;
-  data: Record<string, unknown>;
-}
-
 export interface Project {
-  num: string;
+  slug: string;
   name: string;
   year: string;
-  tags: string[];
-  description: string;
+  role: string;
+  summary: string;        // one line, used in lists and the home reel
+  description: string[];  // paragraphs on the project page
+  highlights: string[];
   stack: string[];
   link?: string;
-  role?: string;
-  highlights?: string[];
-  interactive?: ProjectInteractive;
+  featured?: boolean;     // shown in the home page reel
 }
 
 export const PROJECTS: Project[] = [
   {
-    num: "01", name: "PAYMENT SYSTEM", year: "2024",
-    tags: ["Next.js", "System Design", "Database", "Real Users"],
-    role: "Full-Stack Engineer",
-    description: "Built an internal payment coordination system for a real business — not a demo. Multi-stakeholder approval flows, execution tracking, and audit trails. The kind of software where a bug means someone doesn't get paid.",
-    highlights: ["Multi-role approval pipeline", "Real-time status tracking", "Audit-grade transaction logs"],
+    slug: "payment-system",
+    name: "Payment System",
+    year: "2024",
+    role: "Full-stack engineer",
+    summary: "Approval, execution and audit tooling for a real business's payments.",
+    description: [
+      "An internal payment coordination system for a real business. Requests move through multi-stakeholder approvals, get executed, and are settled — with every step on record.",
+      "It had real users from the first day, which changes how you build: a bug here means someone doesn't get paid.",
+    ],
+    highlights: ["Multi-role approval pipeline", "Real-time status for every payment", "Audit-grade transaction logs"],
     stack: ["Next.js", "PostgreSQL", "Prisma", "TypeScript"],
-    interactive: {
-      type: "flow",
-      label: "Approval Pipeline",
-      data: { stages: ["Request", "Review", "Approve", "Execute", "Settle"] },
-    },
+    featured: true,
   },
   {
-    num: "02", name: "ALLOY", year: "2024",
-    tags: ["Fintech", "B2B", "Product"],
-    role: "Product & Brand Lead",
-    description: "A B2B credit line platform where I owned product identity end-to-end. Wrote the Apple-style launch video script, designed the landing page, and built the positioning around CAC reduction — not feature lists. Fintech thinking, not fintech theatre.",
-    highlights: ["Full brand identity system", "Launch video script + storyboard", "CAC-first product positioning"],
+    slug: "alloy",
+    name: "Alloy",
+    year: "2024",
+    role: "Product & brand lead",
+    summary: "Product identity and positioning for a B2B credit-line platform.",
+    description: [
+      "A B2B credit-line platform where I owned the product identity end to end — the brand system, the landing page and the launch video script.",
+      "The positioning was built around reducing customer acquisition cost rather than listing features.",
+    ],
+    highlights: ["Brand identity system", "Launch video script and storyboard", "CAC-first positioning"],
     stack: ["Next.js", "FastAPI", "PostgreSQL", "Stripe"],
-    interactive: {
-      type: "metrics",
-      label: "Product Metrics",
-      data: {
-        items: [
-          { label: "Credit efficiency", value: 94, suffix: "%" },
-          { label: "Processing time", value: 2, suffix: "s" },
-          { label: "Cost reduction", value: 40, suffix: "%" },
-        ],
-      },
-    },
+    featured: true,
   },
   {
-    num: "03", name: "CREDMATCH", year: "2024",
-    tags: ["AI", "Fintech", "Data", "Hackathon"],
-    role: "AI Engineer",
-    description: "Hackathon-born AI that reads your spending patterns and tells you which credit card you should actually be using. Not a comparison tool — a recommendation engine that calculates lost rewards and surfaces smarter alternatives.",
-    highlights: ["Spending pattern analysis via AI", "Reward optimization engine", "Real-time card matching"],
+    slug: "credmatch",
+    name: "CredMatch",
+    year: "2024",
+    role: "AI engineer",
+    summary: "An AI that tells you which credit card you should actually be using.",
+    description: [
+      "Started at a hackathon. CredMatch reads your spending patterns, works out the rewards you're leaving on the table, and recommends the cards that fit how you actually spend.",
+      "It's a recommendation engine, not a comparison table.",
+    ],
+    highlights: ["Spending-pattern analysis", "Reward optimisation engine", "Card matching"],
     stack: ["Python", "FastAPI", "OpenAI", "React"],
-    interactive: {
-      type: "radar",
-      label: "Analysis Dimensions",
-      data: {
-        axes: [
-          { label: "Travel", value: 0.85 },
-          { label: "Dining", value: 0.7 },
-          { label: "Shopping", value: 0.6 },
-          { label: "Gas", value: 0.45 },
-          { label: "Groceries", value: 0.9 },
-          { label: "Streaming", value: 0.55 },
-        ],
-      },
-    },
+    featured: true,
   },
   {
-    num: "04", name: "ASTROLOGY AI", year: "2024",
-    tags: ["Python", "AI", "APIs", "Product"],
-    role: "Backend & Product",
-    description: "An AI astrology assistant that generates personalized birth-chart insights using planetary ephemeris data. Designed for subscription monetization — think Headspace for horoscopes, but with real computational astrology under the hood.",
-    highlights: ["Planetary position calculations", "GPT-powered interpretation layer", "Subscription-ready architecture"],
-    stack: ["Python", "FastAPI", "OpenAI", "Stripe"],
-    interactive: {
-      type: "orbit",
-      label: "Planetary System",
-      data: {
-        center: "☉",
-        items: ["☿", "♀", "☽", "♂", "♃", "♄"],
-      },
-    },
+    slug: "repomind",
+    name: "Repomind",
+    year: "2024",
+    role: "AI agent developer",
+    summary: "A code-review agent that reads pull requests against your codebase's history.",
+    description: [
+      "An autonomous code-review agent that runs in CI. It reads each pull request against the history of the codebase, flags anti-patterns and suggests refactors.",
+      "Over time it learns the team's style, so the feedback reads like it came from someone who knows the code.",
+    ],
+    highlights: ["Codebase-aware context", "PR diff interpretation", "Style-learning feedback loop"],
+    stack: ["Next.js", "FastAPI", "OpenAI", "GitHub API"],
+    featured: true,
   },
   {
-    num: "05", name: "REPOMIND", year: "2024",
-    tags: ["AI Agent", "Dev Tools"],
-    role: "AI Agent Developer",
-    description: "Autonomous code review agent that lives inside your CI pipeline. It reads your PRs against codebase history, flags anti-patterns, suggests refactors, and learns your team's style over time. Code review on autopilot.",
-    highlights: ["Codebase-aware context analysis", "PR diff interpretation", "Style-learning feedback loop"],
-    stack: ["Next.js", "FastAPI", "OpenAI Codex", "GitHub API"],
-    interactive: {
-      type: "graph",
-      label: "Agent Architecture",
-      data: {
-        nodes: [
-          { id: "pr", label: "PR", x: 30, y: 70 },
-          { id: "ctx", label: "Context", x: 100, y: 30 },
-          { id: "ai", label: "AI", x: 100, y: 110 },
-          { id: "review", label: "Review", x: 170, y: 70 },
-        ],
-        edges: [["pr", "ctx"], ["pr", "ai"], ["ctx", "ai"], ["ai", "review"], ["ctx", "review"]],
-      },
-    },
+    slug: "4ze-racing",
+    name: "4ZE Racing",
+    year: "2023–",
+    role: "Corporate representative",
+    summary: "Sponsorships and partnerships for a Formula Student EV team.",
+    description: [
+      "The business side of a Formula Student electric racing team. I handle sponsorship, brand partnerships and external communication.",
+      "Most of the job is translating what the engineers have built into terms a company can say yes to.",
+    ],
+    highlights: ["Sponsorship pipeline", "Brand partnerships", "External communications"],
+    stack: ["Strategy", "Partnerships", "Brand"],
+    featured: true,
   },
   {
-    num: "06", name: "FARMHUB", year: "2023",
-    tags: ["Marketplace", "P2P"],
-    role: "Full-Stack Developer",
-    description: "A peer-to-peer crop marketplace that lets farmers set their own prices and connect directly with buyers. Real-time price discovery, location-based matching, zero middlemen. Built to collapse the supply chain.",
-    highlights: ["Real-time bidding with WebSockets", "Geolocation-based matching", "Direct farmer-buyer connection"],
+    slug: "farmhub",
+    name: "FarmHub",
+    year: "2023",
+    role: "Full-stack developer",
+    summary: "A peer-to-peer crop marketplace where farmers set their own prices.",
+    description: [
+      "A marketplace that connects farmers directly with buyers nearby, with live bidding and location-based matching — no middlemen in between.",
+    ],
+    highlights: ["Real-time bidding over WebSockets", "Location-based matching", "Direct farmer–buyer connection"],
     stack: ["React", "Node.js", "MongoDB", "Socket.io"],
-    interactive: {
-      type: "metrics",
-      label: "Platform Impact",
-      data: {
-        items: [
-          { label: "Middlemen eliminated", value: 100, suffix: "%" },
-          { label: "Price transparency", value: 3, suffix: "x" },
-          { label: "Match radius", value: 50, suffix: "km" },
-        ],
-      },
-    },
   },
   {
-    num: "07", name: "IOT DETECTOR", year: "2023",
-    tags: ["IoT", "Networking"],
-    role: "Hardware + Firmware Engineer",
-    description: "WiFi probe-sniffing system built on NodeMCU ESP-12E running in promiscuous mode. It passively detects nearby phones without any app or pairing — just by listening to the air. LED and buzzer alerts in real-time. Raw networking at the silicon level.",
-    highlights: ["802.11 promiscuous mode", "Passive device detection", "Hardware alert system"],
-    stack: ["C++", "Arduino", "NodeMCU", "WiFi 802.11"],
-    interactive: {
-      type: "signal",
-      label: "Live Detection Feed",
-      data: { signals: 5, label: "Scanning 802.11 probes..." },
-    },
+    slug: "iot-detector",
+    name: "IoT Detector",
+    year: "2023",
+    role: "Hardware & firmware",
+    summary: "An ESP8266 that notices nearby phones by listening to WiFi probe requests.",
+    description: [
+      "A NodeMCU (ESP-12E) running in promiscuous mode that passively detects nearby phones from their 802.11 probe requests — no app, no pairing.",
+      "Detections trigger an LED and buzzer in real time.",
+    ],
+    highlights: ["802.11 promiscuous mode", "Passive device detection", "Hardware alerts"],
+    stack: ["C++", "Arduino", "NodeMCU"],
   },
   {
-    num: "08", name: "4ZE RACING", year: "2023—",
-    tags: ["Formula EV", "Strategy"],
-    role: "Corporate Representative",
-    description: "The business side of a Formula Student EV racing programme. I handled sponsorship acquisition, brand partnerships, and external communications — translating engineering capability into corporate language that opens doors and closes deals.",
-    highlights: ["Sponsorship pipeline management", "Brand partnership strategy", "External communications"],
-    stack: ["Strategy", "Partnerships", "Brand Direction"],
-    interactive: {
-      type: "radar",
-      label: "Competency Map",
-      data: {
-        axes: [
-          { label: "Strategy", value: 0.95 },
-          { label: "Comms", value: 0.9 },
-          { label: "Brand", value: 0.85 },
-          { label: "Deals", value: 0.8 },
-          { label: "Network", value: 0.75 },
-        ],
-      },
-    },
+    slug: "astrology-ai",
+    name: "Astrology AI",
+    year: "2024",
+    role: "Backend & product",
+    summary: "Birth-chart readings computed from planetary ephemeris data.",
+    description: [
+      "An assistant that calculates planetary positions from ephemeris data and uses a language model to turn the chart into a readable, personal interpretation.",
+      "Built with subscriptions in mind from the start.",
+    ],
+    highlights: ["Planetary position calculations", "LLM interpretation layer", "Subscription-ready backend"],
+    stack: ["Python", "FastAPI", "OpenAI", "Stripe"],
   },
 ];
+
+export const getProject = (slug: string) => PROJECTS.find((p) => p.slug === slug);
