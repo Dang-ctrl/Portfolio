@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
-import type { ProjectInteractive as InteractiveConfig } from "./ProjectRow";
+import type { ProjectInteractive as InteractiveConfig } from "@/data/projects";
 
 /* ─────────────────────────────────────────────
    Per-project interactive widget rendered inside

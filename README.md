@@ -1,50 +1,72 @@
-# Vidit Dang — Premium Developer Portfolio
+# Vidit Dang — Portfolio
 
-A high-performance, cinematic developer portfolio built with Next.js App Router. Features a responsive grid system, an interactive side-drawer project showcase, animated SVG backgrounds, and a seamless light/dark mode experience.
+Personal site built with the Next.js App Router, with a markdown-powered **Journal** and interactive **three.js** elements.
 
 ## Stack
-- **Next.js 14** (App Router)
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS** — utility-based styling
-- **Vanilla CSS / CSS Grid** — complex layout animations and sticky positioning
-- **FormSubmit** — serverless email forwarding for contact forms
+- **Next.js 14** (App Router, static generation) · **React 18** · **TypeScript**
+- **three.js** via **@react-three/fiber** + **drei** — lazy-loaded, only when WebGL is available
+- **gray-matter** + **marked** — journal posts written in Markdown
+- Plain CSS design system in `src/app/globals.css` (tokens → components → pages)
+- **FormSubmit** — serverless contact form
 
-## Typography
-- **Anton** — display headlines and marquee
-- **DM Sans** — body text & nav links
-- **DM Mono** — labels, tags, eyebrows, and code
-- **Cormorant Garamond** — italic quotes and massive serifs
-- **Lora** — rich body copy
+Fonts (via `next/font`): **Instrument Serif** (display), **Inter** (body), **JetBrains Mono** (labels).
 
-## Architecture & Pages
+## Pages
 
-| Route | Description |
+| Route | What's there |
 |---|---|
-| `/` | Split landing page featuring interactive navigation cards and dynamic hover tracking. |
-| `/about` | Deep dive into principles, experience timeline, and an integrated FormSubmit contact form. |
-| `/work` | Project list with interactive hovering, expanding into a fixed side-drawer for in-depth case studies. |
-| `/craft` | A 2×2 grid showcasing technical skills, philosophies, and a real-time stat strip. |
-| `/thinking` | A collection of books, UX intuitions, and mental models with a concentric ring background. |
-| `/now` | A live dashboard of current focus areas, dynamic semester progress, and recent milestones. |
+| `/` | Hero with an interactive 3D sculpture, section cards, latest journal entries |
+| `/work` | Project cards → side drawer with a case study + micro-visualisation |
+| `/craft` | Disciplines, proficiency bars, background |
+| `/thinking` | Rotating convictions, books, people, topics being explored |
+| `/journal` | Achievements, events, milestones and notes, filterable and grouped by year |
+| `/journal/[slug]` | A single post |
+| `/now` | Current focus, live clock, focus ring, streaks, recent journal milestones |
+| `/about` | Principles, experience, contact form, 3D globe |
 
-## Key Features
-- **Page wipe transition** — cinematic overlay and animated rings between every route change.
-- **Custom cursor** — tracking dot + lagging ring effect for a premium feel.
-- **FormSubmit integration** — functional contact form out-of-the-box (requires 1-click email activation).
-- **Responsive design** — scales elegantly from mobile to 4K monitors.
-- **Theme persistence** — defaults to light mode with a smooth, flash-free dark mode toggle.
-- **Stagger reveals** — hardware-accelerated IntersectionObserver animations on scroll.
+Also generated: `/sitemap.xml`, `/robots.txt`, `/journal/feed.xml` (RSS).
 
-## Run Locally
+## ✍️ Posting to the journal
+
+1. Copy `src/content/journal/_template.md` to a new file, e.g. `src/content/journal/sih-2026-finals.md`.
+   The file name becomes the URL: `/journal/sih-2026-finals`.
+2. Fill in the front-matter:
+   ```yaml
+   ---
+   title: "Smart India Hackathon — finals"
+   date: 2026-09-20
+   category: event        # achievement | event | milestone | note
+   summary: "One or two lines for the list and link previews."
+   location: "Chennai, India"            # optional
+   cover: /journal/sih-2026.jpg          # optional — image goes in public/journal/
+   coverAlt: "Our team on stage"         # optional
+   tags: [Hackathon, AI]                 # optional
+   link: https://example.com             # optional (certificate, event page…)
+   ---
+   ```
+3. Write the post below the `---` in Markdown, commit and push. Vercel redeploys and the post shows up on
+   `/journal`, the home page, the `/now` timeline, the sitemap and the RSS feed.
+
+Tips: add `draft: true` to hide a post; files starting with `_` are ignored.
+
+## Editing content
+- Identity, email, social links → `src/lib/site.ts`
+- Projects → `src/data/projects.ts`
+- Books / people / convictions → `src/data/thinking.ts`
+- Now page (sections, focus split, streaks, stack, **semester dates**, "Updated" label) → `src/data/now.ts`
+
+## 3D & performance notes
+- The background particle field and the inline scenes are code-split and load after the page is interactive.
+- Inline scenes mount when they scroll near view and pause rendering when off-screen.
+- `prefers-reduced-motion` stops continuous animation; devices without WebGL get a CSS gradient fallback.
+
+## Run locally
 ```bash
 npm install
-npm run dev
-# → http://localhost:3000
+npm run dev     # → http://localhost:3000
+npm run build   # production build
 ```
 
-## Deployment
-Push to GitHub and connect to Vercel. Zero configuration is needed for Next.js.
-
----
-*Built in 2026 for Vidit Dang.*
+## Deploy
+Push to GitHub and import into Vercel. Set `NEXT_PUBLIC_SITE_URL` (e.g. `https://viditdang.com`) so the
+sitemap, RSS and social previews use your real domain.

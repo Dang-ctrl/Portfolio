@@ -1,40 +1,61 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, DM_Sans, DM_Mono, Cormorant_Garamond, Lora } from "next/font/google";
+import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
-import PageWipe      from "@/components/PageWipe";
-import Nav           from "@/components/Nav";
-import CustomCursor     from "@/components/CustomCursor";
-import ConcentricRings  from "@/components/ConcentricRings";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import RevealObserver from "@/components/RevealObserver";
+import Background from "@/components/three/Background";
+import { SITE, SITE_URL } from "@/lib/site";
 
-const anton     = Anton({ subsets:["latin"], weight:"400", variable:"--font-anton", display:"swap" });
-const dmSans    = DM_Sans({ subsets:["latin"], weight:["300","400","500"], variable:"--font-sans", display:"swap" });
-const dmMono    = DM_Mono({ subsets:["latin"], weight:["300","400"], variable:"--font-mono", display:"swap" });
-const cormorant = Cormorant_Garamond({ subsets:["latin"], weight:["300","400"], style:["normal","italic"], variable:"--font-serif", display:"swap" });
-const lora      = Lora({ subsets:["latin"], weight:["400","500"], style:["normal","italic"], variable:"--font-body", display:"swap" });
+const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
+const sans  = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono  = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)",  color: "#07090a" },
+    { media: "(prefers-color-scheme: light)", color: "#f2f0e9" },
+  ],
 };
 
 export const metadata: Metadata = {
-  title: "Vidit Dang",
-  description: "Builder, creative technologist, and Corporate Rep at 4ZE Racing. B.Tech CSE at SRM University.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE.title, template: `%s — ${SITE.name}` },
+  description: SITE.description,
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: SITE.title,
+    description: SITE.description,
+    url: "/",
+  },
+  twitter: { card: "summary_large_image", title: SITE.title, description: SITE.description },
+  alternates: {
+    types: { "application/rss+xml": [{ url: "/journal/feed.xml", title: `${SITE.name} — Journal` }] },
+  },
 };
+
+/* Runs before paint: applies the saved theme (no flash) and flags JS as available
+   so scroll-reveal styles only hide content when they can also show it again. */
+const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var t=localStorage.getItem('vj-theme');if(t==='light'){d.classList.remove('dark');}}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${anton.variable} ${dmSans.variable} ${dmMono.variable} ${cormorant.variable} ${lora.variable}`} suppressHydrationWarning>
-      <body suppressHydrationWarning>
+    <html lang="en" className={`dark ${serif.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      </head>
+      <body>
         <ThemeProvider>
-          <ConcentricRings />
-          <div id="page-wipe" aria-hidden />
-          <PageWipe />
-          <CustomCursor />
+          <a href="#main" className="skip-link">Skip to content</a>
+          <Background />
           <Nav />
-          {children}
+          <div id="main" className="page-shell">{children}</div>
+          <Footer />
+          <RevealObserver />
         </ThemeProvider>
       </body>
     </html>
