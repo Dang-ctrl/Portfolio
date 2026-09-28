@@ -33,11 +33,11 @@ export default function Nav() {
 
         <nav className="header-nav" aria-label="Primary">
           {NAV_LINKS.map(({ href, label }) => (
-            <TLink key={href} href={href} className="header-link" aria-current={isActive(pathname, href) ? "page" : undefined}>
+            <TLink key={href} href={href} className="header-link" data-magnetic="0.35" aria-current={isActive(pathname, href) ? "page" : undefined}>
               {label}
             </TLink>
           ))}
-          <TLink href="/about#contact" className="header-link">Contact</TLink>
+          <TLink href="/about#contact" className="header-link" data-magnetic="0.35">Contact</TLink>
           <button type="button" className="header-link header-theme" onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>
             {theme === "dark" ? "Light" : "Dark"}
           </button>

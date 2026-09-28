@@ -488,6 +488,82 @@ a.row:hover .row-arrow { opacity: 1; transform: none; }
   .gallery { grid-template-columns: 1fr 1fr; }
 }
 
+/* ── Small shapes & details ── */
+.px-shape { display: inline-block; flex-shrink: 0; vertical-align: middle; }
+
+/* Section headings with a spinning pixel mark */
+.head-with-mark { display: flex; align-items: center; gap: 0.28em; }
+.head-with-mark > span { display: block; }
+.head-mark { width: 0.42em; height: 0.42em; color: var(--accent); }
+
+/* Printer's crop marks in the hero corners */
+.hero { position: relative; }
+.crop { position: absolute; width: 14px; height: 14px; pointer-events: none; opacity: 0.5; }
+.crop::before, .crop::after { content: ""; position: absolute; background: var(--fg); }
+.crop::before { left: 0; right: 0; top: 50%; height: 1px; }
+.crop::after { top: 0; bottom: 0; left: 50%; width: 1px; }
+.crop--tl { top: 76px; left: calc(var(--pad) - 7px); }
+.crop--tr { top: 76px; right: calc(var(--pad) - 7px); }
+.crop--bl { bottom: 10px; left: calc(var(--pad) - 7px); }
+.crop--br { bottom: 10px; right: calc(var(--pad) - 7px); }
+
+/* Hero sparkle beside the name */
+.hero-name { position: relative; }
+.hero-spark { position: absolute; top: 0.02em; right: 0.02em; width: 0.13em; height: 0.13em; color: var(--accent); }
+
+/* Round rotating badge */
+.hero-scroll { align-self: end; }
+.rbadge { position: relative; display: inline-grid; place-items: center; width: 108px; height: 108px; color: var(--fg); }
+.rbadge-ring { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 18s linear infinite; }
+.rbadge-ring text { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; fill: currentColor; }
+.rbadge-core { width: 18px; height: 18px; color: var(--accent); animation: bob 1.8s var(--ease) infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 50% { transform: translateY(4px); } }
+
+/* Journal category glyphs */
+.cat-mark { width: 9px; height: 9px; margin-right: 8px; color: var(--muted); transform: translateY(-1px); }
+.cat-mark--achievement { color: var(--accent); }
+.filter .cat-mark { color: currentColor; }
+.row-meta { display: inline-flex; align-items: center; }
+
+/* Work index: arrow slides in on hover */
+.work-row-year { display: inline-flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.work-row-arrow { width: 12px; height: 12px; opacity: 0; transform: translateX(-8px); transition: opacity 0.3s, transform 0.5s var(--ease); }
+.work-row:hover .work-row-arrow { opacity: 1; transform: none; }
+
+/* Case study */
+.case-sub { display: flex; align-items: center; gap: 10px; }
+.case-sub-mark { width: 10px; height: 10px; color: var(--accent); }
+.next-name--arrow { display: flex; align-items: center; gap: 0.15em; }
+.next-name--arrow > span { display: block; }
+.next-arrow { width: 0.42em; height: 0.42em; transition: transform 0.6s var(--ease); }
+.next-project:hover .next-arrow { transform: translateX(0.12em); }
+
+/* Footer */
+.footer-lead { display: flex; align-items: center; gap: 10px; }
+.footer-mark { width: 12px; height: 12px; color: var(--accent); }
+
+/* Custom cursor (fine pointers only — see motion/Cursor.tsx) */
+.cursor { display: none; }
+.has-cursor .cursor {
+  position: fixed; top: 0; left: 0; z-index: 1000; display: grid; place-items: center;
+  width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+  background: #fff; mix-blend-mode: difference; pointer-events: none; opacity: 0;
+  transition: width 0.35s var(--ease), height 0.35s var(--ease), margin 0.35s var(--ease), opacity 0.3s;
+}
+.has-cursor .cursor[data-state="link"] { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+.has-cursor .cursor[data-state="label"] { width: 84px; height: 84px; margin: -42px 0 0 -42px; }
+.has-cursor .cursor[data-state="text"] { width: 2px; height: 22px; margin: -11px 0 0 -1px; border-radius: 1px; }
+.has-cursor .cursor.is-down { transform: scale(0.8); }
+.cursor-label { font-family: var(--pixel); font-size: 14px; color: #000; opacity: 0; transition: opacity 0.2s; }
+.cursor[data-state="label"] .cursor-label { opacity: 1; }
+@media (pointer: fine) {
+  .has-cursor body, .has-cursor a, .has-cursor button, .has-cursor label { cursor: none; }
+}
+
+/* rough-notation SVGs shouldn't catch clicks */
+.rough-annotation { pointer-events: none; }
+
 /* ── 404 ── */
 .not-found { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
 
@@ -534,6 +610,11 @@ a.row:hover .row-arrow { opacity: 1; transform: none; }
   .field-row { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; row-gap: 32px; }
   .footer-copy { align-items: flex-start; }
+}
+
+@media (max-width: 760px) {
+  .rbadge { width: 88px; height: 88px; }
+  .crop--bl, .crop--br { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

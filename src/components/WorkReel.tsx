@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import TLink from "./TLink";
+import PixelShape from "./PixelShape";
 import { gsap, ScrollTrigger, onPageEnter, prefersReducedMotion } from "@/lib/motion";
 import type { Project } from "@/data/projects";
 
@@ -78,7 +79,7 @@ export default function WorkReel({ projects }: { projects: Project[] }) {
   return (
     <section ref={section} className="reel" aria-label="Selected work">
       <div className="reel-head">
-        <h2 className="h-section" data-split>Selected work</h2>
+        <h2 className="h-section head-with-mark"><PixelShape name="asterisk" className="head-mark" data-spin="1" /><span data-split>Selected work</span></h2>
         <div className="reel-meta" data-reveal>
           <span className="tabular"><span ref={counter}>01</span> / {total}</span>
           <TLink href="/work" className="link">All projects</TLink>
@@ -88,7 +89,7 @@ export default function WorkReel({ projects }: { projects: Project[] }) {
       <div className="reel-viewport">
         <div ref={track} className="reel-track">
           {projects.map((p, i) => (
-            <TLink key={p.slug} href={`/work/${p.slug}`} curtainLabel={p.name} className="reel-card" data-tone={i % 5}>
+            <TLink key={p.slug} href={`/work/${p.slug}`} curtainLabel={p.name} className="reel-card" data-tone={i % 5} data-cursor="View">
               <div className="reel-card-inner">
                 <div className={`reel-card-art ${p.cover ? "has-cover" : ""}`} aria-hidden>
                   {p.cover ? (
@@ -107,7 +108,7 @@ export default function WorkReel({ projects }: { projects: Project[] }) {
               </div>
             </TLink>
           ))}
-          <TLink href="/work" className="reel-card reel-card--end">
+          <TLink href="/work" className="reel-card reel-card--end" data-cursor="All">
             <div className="reel-card-inner">
               <span className="reel-end-text">See all projects →</span>
             </div>

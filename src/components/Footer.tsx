@@ -1,4 +1,5 @@
 import TLink from "./TLink";
+import PixelShape from "./PixelShape";
 import LocalTime from "./LocalTime";
 import { SITE, NAV_LINKS } from "@/lib/site";
 
@@ -6,7 +7,10 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-top">
-        <p className="footer-lead" data-reveal>Have something in mind?</p>
+        <p className="footer-lead" data-reveal>
+          <PixelShape name="asterisk" className="footer-mark" data-spin="1.5" />
+          Have something <span data-annotate="circle">in mind</span>?
+        </p>
         <a href={`mailto:${SITE.email}`} className="footer-email" data-split>
           {SITE.email}
         </a>

@@ -71,8 +71,11 @@ write Markdown below it, and push. Files starting with `_` are ignored, and `dra
 
 ## Motion notes
 - Internal links use `components/TLink.tsx`, which plays the curtain (`components/motion/Curtain.tsx`).
-- Scroll animations are declarative: add `data-split` (line reveal), `data-reveal` (fade up) or
-  `data-parallax="0.2"` to any element; `components/motion/Reveals.tsx` wires them up.
+- Scroll animations are declarative: add `data-split` (line reveal), `data-reveal` (fade up),
+  `data-parallax="0.2"`, `data-spin="1"` (rotate with scroll) or `data-annotate="underline|circle|highlight|box"`
+  (hand-drawn mark via rough-notation) to any element; `components/motion/Reveals.tsx` wires them up.
+- Small details: `components/PixelShape.tsx` (pixel-grid glyphs), `RoundBadge.tsx`, and a custom cursor
+  (`motion/Cursor.tsx`) — add `data-cursor="Label"` for a labelled cursor or `data-magnetic="0.3"` for a magnetic pull.
 - The work reel only pins on desktop with a mouse; touch devices get a native swipeable row.
 - `prefers-reduced-motion` disables smooth scroll, the curtain and all scroll animations.
 
