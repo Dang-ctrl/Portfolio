@@ -21,35 +21,52 @@ a curtain page transition and a scroll-driven horizontal work reel.
 | `/journal` | Achievements, events, milestones and notes, filterable, grouped by year |
 | `/journal/[slug]` | A single post |
 | `/about` | Bio, now, experience, books, contact form |
+| `/admin` | Private portal for the journal and projects (see below) |
 
 `/craft`, `/thinking` and `/now` redirect to `/about`. Also generated: `/sitemap.xml`, `/robots.txt`, `/journal/feed.xml` (RSS).
 
-## ✍️ Posting to the journal
+## ✍️ The portal (`/admin`)
 
-1. Copy `src/content/journal/_template.md` to a new file, e.g. `src/content/journal/sih-2026-finals.md`.
-   The file name becomes the URL: `/journal/sih-2026-finals`.
-2. Fill in the front-matter:
-   ```yaml
-   ---
-   title: "Smart India Hackathon — finals"
-   date: 2026-09-20
-   category: event        # achievement | event | milestone | note
-   summary: "One or two lines for the list and link previews."
-   location: "Chennai, India"            # optional
-   cover: /journal/sih-2026.jpg          # optional — image goes in public/journal/
-   coverAlt: "Our team on stage"         # optional
-   tags: [Hackathon, AI]                 # optional
-   link: https://example.com             # optional (certificate, event page…)
-   ---
-   ```
-3. Write the post below the `---` in Markdown, commit and push. Vercel redeploys and the post shows up on
-   `/journal`, the home page, the sitemap and the RSS feed.
+A private editor on the site itself for the journal and projects:
 
-Tips: add `draft: true` to hide a post; files starting with `_` are ignored.
+- **Journal:** write posts in Markdown with a toolbar and live preview, add a cover photo, inline photos and a gallery,
+  save drafts, edit, unpublish or delete.
+- **Projects:** edit every field, reorder, choose which ones are featured in the home reel, add cover images.
+- Photos are resized to 2000px and compressed in the browser before upload.
+- Every save is one commit to `main`. Vercel redeploys automatically, so changes are live in about a minute,
+  and the full history is in git.
+
+### One-time setup
+
+1. **Create a GitHub token** — GitHub → Settings → Developer settings → Personal access tokens →
+   **Fine-grained tokens** → *Generate new token*.
+   - Repository access: **Only select repositories** → `Dang-ctrl/Portfolio`
+   - Permissions → Repository permissions → **Contents: Read and write**
+2. **Add environment variables in Vercel** — Project → Settings → Environment Variables (Production):
+
+   | Name | Value |
+   |---|---|
+   | `ADMIN_PASSWORD` | a long password only you know |
+   | `GITHUB_TOKEN` | the token from step 1 |
+   | `GITHUB_REPO` | *(optional)* defaults to `Dang-ctrl/Portfolio` |
+   | `GITHUB_BRANCH` | *(optional)* defaults to `main` |
+
+3. **Redeploy** (Deployments → ⋯ → Redeploy), then open `/admin` and sign in.
+
+To use the portal locally, put the same variables in `.env.local` (git-ignored) and run `npm run dev`.
+Saves from local dev still commit to GitHub.
+
+Notes: the token never reaches the browser. Changing `ADMIN_PASSWORD` signs out every session. The editor previews
+already-committed photos from `raw.githubusercontent.com`, which only works while the repo is public.
+
+### Posting by hand
+
+You can still add posts without the portal: copy `src/content/journal/_template.md`, fill in the front-matter,
+write Markdown below it, and push. Files starting with `_` are ignored, and `draft: true` hides a post.
 
 ## Editing content
 - Identity, email, social links → `src/lib/site.ts`
-- Projects (set `featured: true` to put one in the home reel) → `src/data/projects.ts`
+- Projects → the portal, or `src/content/projects.json` (`featured: true` puts one in the home reel)
 - About page (now, experience, books) → `src/app/about/page.tsx`
 
 ## Motion notes

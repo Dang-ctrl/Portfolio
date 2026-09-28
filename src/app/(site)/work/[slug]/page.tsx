@@ -16,7 +16,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     title: p.name,
     description: p.summary,
     alternates: { canonical: `/work/${p.slug}` },
-    openGraph: { title: p.name, description: p.summary },
+    openGraph: { title: p.name, description: p.summary, images: p.cover ? [{ url: p.cover.src }] : undefined },
   };
 }
 
@@ -36,7 +36,14 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         <p className="case-summary" data-split data-delay="0.1">{project.summary}</p>
       </header>
 
-      <span className="rule" data-reveal="rule" />
+      {project.cover ? (
+        <figure className="case-cover" data-reveal>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={project.cover.src} alt={project.cover.alt} width={project.cover.width} height={project.cover.height} />
+        </figure>
+      ) : (
+        <span className="rule" data-reveal="rule" />
+      )}
 
       <div className="case-body">
         <dl className="case-facts" data-reveal>
