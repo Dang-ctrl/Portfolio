@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import CategoryMark from "./CategoryMark";
 import TLink from "./TLink";
 import { CATEGORIES, formatDate, type Category, type PostMeta } from "@/lib/journal-shared";
 import { ScrollTrigger } from "@/lib/motion";
@@ -26,6 +27,7 @@ export default function JournalIndex({ posts }: { posts: PostMeta[] }) {
         <div className="filters" role="group" aria-label="Filter entries" data-reveal>
           {(["all", ...available] as Filter[]).map((f) => (
             <button key={f} type="button" className="filter" aria-pressed={filter === f} onClick={() => choose(f)}>
+              {f !== "all" && <CategoryMark category={f} />}
               {f === "all" ? "Everything" : CATEGORIES[f].plural}
               <sup className="tabular">{f === "all" ? posts.length : posts.filter((p) => p.category === f).length}</sup>
             </button>
@@ -45,7 +47,7 @@ export default function JournalIndex({ posts }: { posts: PostMeta[] }) {
                     <span className="row-title">{p.title}</span>
                     {p.summary && <span className="row-summary">{p.summary}</span>}
                   </span>
-                  <span className="row-meta">{CATEGORIES[p.category].label}</span>
+                  <span className="row-meta"><CategoryMark category={p.category} />{CATEGORIES[p.category].label}</span>
                   <span className="row-arrow" aria-hidden>→</span>
                 </TLink>
               </li>

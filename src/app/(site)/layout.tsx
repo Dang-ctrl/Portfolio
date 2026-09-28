@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import Curtain from "@/components/motion/Curtain";
 import Reveals from "@/components/motion/Reveals";
+import Cursor from "@/components/motion/Cursor";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       </div>
       <Curtain />
       <Reveals />
+      <Cursor />
     </>
   );
 }

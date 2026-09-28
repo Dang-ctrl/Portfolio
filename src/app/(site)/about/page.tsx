@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PixelShape from "@/components/PixelShape";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import { SITE } from "@/lib/site";
@@ -42,7 +43,7 @@ export default function AboutPage() {
           </p>
           <p className="body" data-reveal>
             I work across the whole thing: figuring out what to build, designing how it should feel, and writing
-            the code. Outside of software I do partnerships for 4ZE Racing, our Formula Student electric team,
+            the code. Outside of software I do partnerships for <span data-annotate="underline">4ZE Racing</span>, our Formula Student electric team,
             which has taught me as much about building as any codebase.
           </p>
         </div>
@@ -52,14 +53,14 @@ export default function AboutPage() {
       </header>
 
       <section className="section split-list">
-        <h2 className="h-section" data-split>Now</h2>
+<h2 className="h-section head-with-mark"><PixelShape name="sparkle" className="head-mark" data-spin="1" /><span data-split>Now</span></h2>
         <ul className="plain">
           {NOW.map((n) => <li key={n} data-reveal>{n}</li>)}
         </ul>
       </section>
 
       <section className="section split-list">
-        <h2 className="h-section" data-split>Experience</h2>
+<h2 className="h-section head-with-mark"><PixelShape name="asterisk" className="head-mark" data-spin="1" /><span data-split>Experience</span></h2>
         <ul className="rows">
           {EXPERIENCE.map((e) => (
             <li key={e.role} data-reveal>
@@ -74,7 +75,7 @@ export default function AboutPage() {
       </section>
 
       <section className="section split-list">
-        <h2 className="h-section" data-split>On the shelf</h2>
+<h2 className="h-section head-with-mark"><PixelShape name="square" className="head-mark" data-spin="1" /><span data-split>On the shelf</span></h2>
         <ul className="rows">
           {SHELF.map((b) => (
             <li key={b.title} data-reveal>
@@ -90,7 +91,7 @@ export default function AboutPage() {
 
       <section id="contact" className="section contact grid">
         <div className="col-text">
-          <h2 className="h-section" data-split>Get in touch</h2>
+<h2 className="h-section head-with-mark"><PixelShape name="ring" className="head-mark" data-spin="1" /><span data-split>Get in touch</span></h2>
           <p className="body" data-reveal>
             Internships, freelance work, collaborations — or just something worth saying. I usually reply within a day.
           </p>

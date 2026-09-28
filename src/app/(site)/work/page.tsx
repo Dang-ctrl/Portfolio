@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PixelShape from "@/components/PixelShape";
 import TLink from "@/components/TLink";
 import { PROJECTS } from "@/data/projects";
 
@@ -25,12 +26,12 @@ export default function WorkPage() {
         </li>
         {PROJECTS.map((p, i) => (
           <li key={p.slug} data-reveal>
-            <TLink href={`/work/${p.slug}`} curtainLabel={p.name} className="work-row">
+            <TLink href={`/work/${p.slug}`} curtainLabel={p.name} className="work-row" data-cursor="View">
               <span className="work-row-index tabular">{String(i + 1).padStart(2, "0")}</span>
               <span className="work-row-name">{p.name}</span>
               <span className="work-row-summary">{p.summary}</span>
               <span className="work-row-role">{p.role}</span>
-              <span className="work-row-year tabular">{p.year}</span>
+              <span className="work-row-year tabular">{p.year}<PixelShape name="arrow" className="work-row-arrow" /></span>
             </TLink>
           </li>
         ))}

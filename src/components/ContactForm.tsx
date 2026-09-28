@@ -57,7 +57,7 @@ export default function ContactForm() {
       <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="visually-hidden" aria-hidden />
 
       <div className="form-actions">
-        <button type="submit" className="btn" disabled={status === "sending"}>
+        <button type="submit" className="btn" data-magnetic="0.25" disabled={status === "sending"}>
           {status === "sending" ? "Sending…" : "Send message"}
         </button>
         <p className="form-status" role="status">

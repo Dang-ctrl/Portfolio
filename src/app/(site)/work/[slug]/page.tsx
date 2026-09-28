@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PixelShape from "@/components/PixelShape";
 import { notFound } from "next/navigation";
 import TLink from "@/components/TLink";
 import { PROJECTS, getProject } from "@/data/projects";
@@ -60,16 +61,16 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             <p key={i} className={i === 0 ? "lede" : "body"} data-reveal>{para}</p>
           ))}
 
-          <h2 className="case-sub" data-reveal>What went into it</h2>
+          <h2 className="case-sub" data-reveal><PixelShape name="plus" className="case-sub-mark" />What went into it</h2>
           <ul className="case-list">
             {project.highlights.map((h) => <li key={h} data-reveal>{h}</li>)}
           </ul>
         </div>
       </div>
 
-      <TLink href={`/work/${next.slug}`} curtainLabel={next.name} className="next-project">
+      <TLink href={`/work/${next.slug}`} curtainLabel={next.name} className="next-project" data-cursor="Next">
         <span className="next-label" data-reveal>Next project</span>
-        <span className="next-name" data-split>{next.name}</span>
+        <span className="next-name next-name--arrow"><span data-split>{next.name}</span><PixelShape name="arrow" className="next-arrow" /></span>
       </TLink>
     </main>
   );
