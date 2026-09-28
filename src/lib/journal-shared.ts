@@ -18,6 +18,9 @@ export interface PostMeta {
   location?: string;
   cover?: string;
   coverAlt?: string;
+  coverWidth?: number;
+  coverHeight?: number;
+  gallery: { src: string; alt: string; width?: number; height?: number }[];
   tags: string[];
   link?: string;
   readingMinutes: number;

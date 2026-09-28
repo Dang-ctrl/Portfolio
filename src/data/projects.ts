@@ -1,3 +1,14 @@
+import raw from "@/content/projects.json";
+
+/* Project data lives in src/content/projects.json so the admin portal can edit it. */
+
+export interface Image {
+  src: string;       // path under /public, e.g. /work/alloy/cover.jpg
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -9,117 +20,9 @@ export interface Project {
   stack: string[];
   link?: string;
   featured?: boolean;     // shown in the home page reel
+  cover?: Image;          // replaces the typographic card in the reel, shown on the project page
 }
 
-export const PROJECTS: Project[] = [
-  {
-    slug: "payment-system",
-    name: "Payment System",
-    year: "2024",
-    role: "Full-stack engineer",
-    summary: "Approval, execution and audit tooling for a real business's payments.",
-    description: [
-      "An internal payment coordination system for a real business. Requests move through multi-stakeholder approvals, get executed, and are settled — with every step on record.",
-      "It had real users from the first day, which changes how you build: a bug here means someone doesn't get paid.",
-    ],
-    highlights: ["Multi-role approval pipeline", "Real-time status for every payment", "Audit-grade transaction logs"],
-    stack: ["Next.js", "PostgreSQL", "Prisma", "TypeScript"],
-    featured: true,
-  },
-  {
-    slug: "alloy",
-    name: "Alloy",
-    year: "2024",
-    role: "Product & brand lead",
-    summary: "Product identity and positioning for a B2B credit-line platform.",
-    description: [
-      "A B2B credit-line platform where I owned the product identity end to end — the brand system, the landing page and the launch video script.",
-      "The positioning was built around reducing customer acquisition cost rather than listing features.",
-    ],
-    highlights: ["Brand identity system", "Launch video script and storyboard", "CAC-first positioning"],
-    stack: ["Next.js", "FastAPI", "PostgreSQL", "Stripe"],
-    featured: true,
-  },
-  {
-    slug: "credmatch",
-    name: "CredMatch",
-    year: "2024",
-    role: "AI engineer",
-    summary: "An AI that tells you which credit card you should actually be using.",
-    description: [
-      "Started at a hackathon. CredMatch reads your spending patterns, works out the rewards you're leaving on the table, and recommends the cards that fit how you actually spend.",
-      "It's a recommendation engine, not a comparison table.",
-    ],
-    highlights: ["Spending-pattern analysis", "Reward optimisation engine", "Card matching"],
-    stack: ["Python", "FastAPI", "OpenAI", "React"],
-    featured: true,
-  },
-  {
-    slug: "repomind",
-    name: "Repomind",
-    year: "2024",
-    role: "AI agent developer",
-    summary: "A code-review agent that reads pull requests against your codebase's history.",
-    description: [
-      "An autonomous code-review agent that runs in CI. It reads each pull request against the history of the codebase, flags anti-patterns and suggests refactors.",
-      "Over time it learns the team's style, so the feedback reads like it came from someone who knows the code.",
-    ],
-    highlights: ["Codebase-aware context", "PR diff interpretation", "Style-learning feedback loop"],
-    stack: ["Next.js", "FastAPI", "OpenAI", "GitHub API"],
-    featured: true,
-  },
-  {
-    slug: "4ze-racing",
-    name: "4ZE Racing",
-    year: "2023–",
-    role: "Corporate representative",
-    summary: "Sponsorships and partnerships for a Formula Student EV team.",
-    description: [
-      "The business side of a Formula Student electric racing team. I handle sponsorship, brand partnerships and external communication.",
-      "Most of the job is translating what the engineers have built into terms a company can say yes to.",
-    ],
-    highlights: ["Sponsorship pipeline", "Brand partnerships", "External communications"],
-    stack: ["Strategy", "Partnerships", "Brand"],
-    featured: true,
-  },
-  {
-    slug: "farmhub",
-    name: "FarmHub",
-    year: "2023",
-    role: "Full-stack developer",
-    summary: "A peer-to-peer crop marketplace where farmers set their own prices.",
-    description: [
-      "A marketplace that connects farmers directly with buyers nearby, with live bidding and location-based matching — no middlemen in between.",
-    ],
-    highlights: ["Real-time bidding over WebSockets", "Location-based matching", "Direct farmer–buyer connection"],
-    stack: ["React", "Node.js", "MongoDB", "Socket.io"],
-  },
-  {
-    slug: "iot-detector",
-    name: "IoT Detector",
-    year: "2023",
-    role: "Hardware & firmware",
-    summary: "An ESP8266 that notices nearby phones by listening to WiFi probe requests.",
-    description: [
-      "A NodeMCU (ESP-12E) running in promiscuous mode that passively detects nearby phones from their 802.11 probe requests — no app, no pairing.",
-      "Detections trigger an LED and buzzer in real time.",
-    ],
-    highlights: ["802.11 promiscuous mode", "Passive device detection", "Hardware alerts"],
-    stack: ["C++", "Arduino", "NodeMCU"],
-  },
-  {
-    slug: "astrology-ai",
-    name: "Astrology AI",
-    year: "2024",
-    role: "Backend & product",
-    summary: "Birth-chart readings computed from planetary ephemeris data.",
-    description: [
-      "An assistant that calculates planetary positions from ephemeris data and uses a language model to turn the chart into a readable, personal interpretation.",
-      "Built with subscriptions in mind from the start.",
-    ],
-    highlights: ["Planetary position calculations", "LLM interpretation layer", "Subscription-ready backend"],
-    stack: ["Python", "FastAPI", "OpenAI", "Stripe"],
-  },
-];
+export const PROJECTS = raw as Project[];
 
 export const getProject = (slug: string) => PROJECTS.find((p) => p.slug === slug);

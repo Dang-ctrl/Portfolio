@@ -4,11 +4,6 @@ import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/motion/SmoothScroll";
-import Curtain from "@/components/motion/Curtain";
-import Reveals from "@/components/motion/Reveals";
 import { SITE, SITE_URL } from "@/lib/site";
 
 export const viewport: Viewport = {
@@ -33,6 +28,8 @@ export const metadata: Metadata = {
    if the motion scripts haven't started within a few seconds. */
 const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var t=localStorage.getItem('vj-theme');if(t==='light'){d.classList.remove('dark');}setTimeout(function(){if(!window.__motion)d.classList.add('no-motion')},4000);}catch(e){}})();`;
 
+/* Root shell shared by the public site and the admin portal.
+   Site chrome (nav, footer, curtain, smooth scroll) lives in app/(site)/layout.tsx. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -44,17 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
-        <ThemeProvider>
-          <a href="#main" className="skip-link">Skip to content</a>
-          <SmoothScroll />
-          <Nav />
-          <div id="main">
-            {children}
-            <Footer />
-          </div>
-          <Curtain />
-          <Reveals />
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

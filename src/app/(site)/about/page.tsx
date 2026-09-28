@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import { SITE } from "@/lib/site";
-import portrait from "../../../public/pics/portrait.png";
+import portrait from "../../../../public/pics/portrait.png";
 
 export const metadata: Metadata = {
   title: "About",

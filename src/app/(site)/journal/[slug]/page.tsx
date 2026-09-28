@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TLink from "@/components/TLink";
+import Gallery from "@/components/Gallery";
 import { CATEGORIES, formatDate, getAllPosts, getPost } from "@/lib/journal";
 
 export const dynamicParams = false;
@@ -52,11 +53,17 @@ export default function PostPage({ params }: { params: { slug: string } }) {
         {post.cover && (
           <figure className="post-cover" data-reveal>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.cover} alt={post.coverAlt ?? ""} />
+            <img src={post.cover} alt={post.coverAlt ?? ""} width={post.coverWidth} height={post.coverHeight} />
           </figure>
         )}
 
         <div className="prose" data-reveal dangerouslySetInnerHTML={{ __html: post.html }} />
+
+        {post.gallery.length > 0 && (
+          <div data-reveal>
+            <Gallery images={post.gallery} />
+          </div>
+        )}
 
         {(post.link || post.tags.length > 0) && (
           <footer className="post-foot" data-reveal>

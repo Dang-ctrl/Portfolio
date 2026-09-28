@@ -90,8 +90,13 @@ export default function WorkReel({ projects }: { projects: Project[] }) {
           {projects.map((p, i) => (
             <TLink key={p.slug} href={`/work/${p.slug}`} curtainLabel={p.name} className="reel-card" data-tone={i % 5}>
               <div className="reel-card-inner">
-                <div className="reel-card-art" aria-hidden>
-                  <span className="reel-card-glyph">{p.name}</span>
+                <div className={`reel-card-art ${p.cover ? "has-cover" : ""}`} aria-hidden>
+                  {p.cover ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={p.cover.src} alt="" width={p.cover.width} height={p.cover.height} loading="lazy" className="reel-card-img" />
+                  ) : (
+                    <span className="reel-card-glyph">{p.name}</span>
+                  )}
                   <span className="reel-card-no">{String(i + 1).padStart(2, "0")}</span>
                 </div>
                 <div className="reel-card-info">

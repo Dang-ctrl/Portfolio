@@ -42,6 +42,15 @@ function parse(file: string): Post | null {
     location: data.location ? String(data.location) : undefined,
     cover: data.cover ? String(data.cover) : undefined,
     coverAlt: data.coverAlt ? String(data.coverAlt) : undefined,
+    coverWidth: Number(data.coverWidth) || undefined,
+    coverHeight: Number(data.coverHeight) || undefined,
+    gallery: Array.isArray(data.gallery)
+      ? data.gallery
+          .filter((g: unknown) => g && typeof (g as { src?: unknown }).src === "string")
+          .map((g: { src: string; alt?: string; width?: number; height?: number }) => ({
+            src: g.src, alt: String(g.alt ?? ""), width: Number(g.width) || undefined, height: Number(g.height) || undefined,
+          }))
+      : [],
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     link: data.link ? String(data.link) : undefined,
     readingMinutes: Math.max(1, Math.round(words / 200)),

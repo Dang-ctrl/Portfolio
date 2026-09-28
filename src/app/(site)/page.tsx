@@ -3,7 +3,7 @@ import TLink from "@/components/TLink";
 import WorkReel from "@/components/WorkReel";
 import { PROJECTS } from "@/data/projects";
 import { CATEGORIES, formatDate, getPostMetas } from "@/lib/journal";
-import portrait from "../../public/pics/portrait.png";
+import portrait from "../../../public/pics/portrait.png";
 
 export default function Home() {
   const featured = PROJECTS.filter((p) => p.featured);
