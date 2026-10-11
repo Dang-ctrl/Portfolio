@@ -19,8 +19,7 @@
       "PostgreSQL",
       "Prisma",
       "TypeScript"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "alloy",
@@ -42,8 +41,7 @@
       "FastAPI",
       "PostgreSQL",
       "Stripe"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "credmatch",
@@ -65,8 +63,7 @@
       "FastAPI",
       "OpenAI",
       "React"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "repomind",
@@ -88,8 +85,7 @@
       "FastAPI",
       "OpenAI",
       "GitHub API"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "4ze-racing",
@@ -110,8 +106,7 @@
       "Strategy",
       "Partnerships",
       "Brand"
-    ],
-    "featured": true
+    ]
   },
   {
     "slug": "farmhub",
